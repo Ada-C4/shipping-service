@@ -1,3 +1,5 @@
+[Trello Board](https://trello.com/b/hqH78Cal/team-fiona)
+
 # Shipping Service API
 Build a stand-alone shipping service API that calculates estimated shipping cost for an order from another team's bEtsy application.
 
