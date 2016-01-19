@@ -26,6 +26,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use active_shipping for shipping amounts
 gem 'active_shipping'
 
+#use dotenv for secrets
+gem 'dotenv'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
