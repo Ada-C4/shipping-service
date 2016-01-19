@@ -8,6 +8,11 @@
 /test/tmp/
 /test/version_tmp/
 /tmp/
+/.env
+# Mac Stuff
+*.DS_Store
+*.keep
+coverage
 
 ## Specific to RubyMotion:
 .dat*
