@@ -1,5 +1,9 @@
 [Trello Board](https://trello.com/b/hqH78Cal/team-fiona)
 
+[Heroku](http://fuzzyfionas.herokuapp.com/)
+
+[Fuzzy Github Fork](https://github.com/knaydee/betsy/tree/fiona/master)
+
 # Shipping Service API
 Build a stand-alone shipping service API that calculates estimated shipping cost for an order from another team's bEtsy application.
 
