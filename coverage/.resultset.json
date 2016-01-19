@@ -1,0 +1,29 @@
+{
+  "RSpec": {
+    "coverage": {
+      "/Users/katherinedefliese/Documents/Ada_homework/project-forks/shipping-service/app/helpers/application_helper.rb": [
+        1,
+        null
+      ],
+      "/Users/katherinedefliese/Documents/Ada_homework/project-forks/shipping-service/app/helpers/packages_helper.rb": [
+        1,
+        null
+      ],
+      "/Users/katherinedefliese/Documents/Ada_homework/project-forks/shipping-service/app/controllers/packages_controller.rb": [
+        1,
+        null,
+        1,
+        null,
+        null
+      ],
+      "/Users/katherinedefliese/Documents/Ada_homework/project-forks/shipping-service/app/controllers/application_controller.rb": [
+        1,
+        null,
+        null,
+        1,
+        null
+      ]
+    },
+    "timestamp": 1453243290
+  }
+}
