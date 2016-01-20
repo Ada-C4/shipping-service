@@ -2,10 +2,17 @@ require 'rails_helper'
 
 RSpec.describe Shipment, type: :model do
 
-  describe "get_origin" do
-    it "creates a new Location object" do
+  describe "initialize" do
+    it "sets the @origin instance variable" do
       
     end
+  end
+  describe "get_quotes" do
+    
+  end
+
+  describe "get_origin" do
+
   end
   describe "get_destination" do
     it "creates a new Location object" do
