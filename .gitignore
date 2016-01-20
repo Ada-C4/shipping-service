@@ -73,3 +73,5 @@ bower.json
 .powenv
 
 .sublime-project
+
+.env
