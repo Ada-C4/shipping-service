@@ -2,14 +2,10 @@ class PackagesController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def rates
-    package = create_package
+    package = create_package(params)
     origin = create_origin(params)
-    # origin = ActiveShipping::Location.new(country: 'US',
-    #                                    state: 'CA',
-    #                                    city: 'Beverly Hills',
-    #                                    zip: '90210')
-
     destination = create_destination(params)
+    
     # Verified USPS works
     usps = ActiveShipping::USPS.new(login: ENV["USPS_USERNAME"], password: ENV["USPS_PASSWORD"])
     response = usps.find_rates(origin, destination, package)
@@ -31,8 +27,8 @@ class PackagesController < ApplicationController
 
   private
 
-  def create_package
-    @package = ActiveShipping::Package.new(100, [10, 20, 30], :units => :metric)
+  def create_package(params)
+    @package = ActiveShipping::Package.new(params[:package][:weight].to_i, [params[:package][:length].to_i, params[:package][:width].to_i, params[:package][:height].to_i], :units => params[:package][:units])
   end
 
   def create_destination(params)
