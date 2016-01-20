@@ -1,38 +1,66 @@
 require 'rails_helper'
 
 RSpec.describe PackagesController, type: :controller do
+  let(:params) do {
+      destination_address: {
+        country: "US",
+        state: "WA",
+        city: "Seattle",
+        zip: "98112"
+      },
+      origin_address: {
+        country: "US",
+        state: "FL",
+        city: "Ft Lauderdale",
+        zip: "33316"
+      },
+      package: {
+        weight: 100,
+        length: 10,
+        width: 20,
+        height: 30,
+        units: "metric"
+      }
+    }
+  end
+
+  let(:bad_params) do {
+      destination_address: {
+        country: "US",
+        state: "WA",
+        city: "Seattle",
+        zip: ""
+      }
+    }
+  end
+
+  let(:keys) { ["ups", "usps"]}
 
   describe "GET 'rates'" do
     it "is successful" do
-      get :rates
+      get :rates, params
       expect(response.response_code).to eq 200
     end
 
     it "returns json" do
-      get :rates
+      get :rates, params
       expect(response.header['Content-Type']).to include 'application/json'
     end
 
     context "the returned json object" do
       before :each do
-        get :rates
+        get :rates, params
         @response = JSON.parse response.body
       end
 
       it "has the right keys" do
         expect(@response.keys.sort).to eq keys
       end
-
-      it "has all of Rosa's info" do
-        keys.each do |key|
-          expect(@response[key]).to eq rosa[key]
-        end
-      end
     end
 
     context "no rates found" do
       before :each do
-        get :rates
+        get :rates, bad_params
       end
 
       it "is successful" do
