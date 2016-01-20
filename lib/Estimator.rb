@@ -17,7 +17,7 @@ module Estimator
   def origin
     # Location.new(country: "US", state: "CA", city: "Los Angeles", postal_code: "90001")
     #rough draft- may need helpers for params
-    #in wetsy, we will have hardcoded in just one address that is sent for this
+    #in wetsy, we will get this from the "merchant"
       Location.new(shipping_params[:origin])
   end
 
@@ -28,6 +28,9 @@ module Estimator
   end
 
   def packages
+    #ideally, wetsy combines multiple items from the same merchant into one package
+    #each merchant therefore sends just one package
+    #we WILL have multiple packages per estimate
     package = Package.new(weight, [length, width, height])
   end
 
