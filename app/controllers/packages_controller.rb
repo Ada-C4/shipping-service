@@ -1,13 +1,13 @@
 class PackagesController < ApplicationController
   skip_before_action :verify_authenticity_token
-  
+
   def rates
-    binding.pry
     package = create_package
-    origin = ActiveShipping::Location.new(country: 'US',
-                                       state: 'CA',
-                                       city: 'Beverly Hills',
-                                       zip: '90210')
+    origin = create_origin(params)
+    # origin = ActiveShipping::Location.new(country: 'US',
+    #                                    state: 'CA',
+    #                                    city: 'Beverly Hills',
+    #                                    zip: '90210')
 
     destination = create_destination(params)
     # Verified USPS works
@@ -40,10 +40,12 @@ class PackagesController < ApplicationController
                                             state: params[:destination_address][:state],
                                             city: params[:destination_address][:city],
                                             zip: params[:destination_address][:zip])
-
   end
 
-  # "product[name]=Responsive Web Design with HTML5 and CSS3&product[sku]=1849693188&product[publisher]=Packt Publishing (April 10, 2012)"
-  # "destination_address[country]=US&destination_address[state]=WA&destination_address[city]=Seattle&destination_address[98112]"
-
+  def create_origin(params)
+    @origin = ActiveShipping::Location.new(country: params[:origin_address][:country],
+                                            state: params[:origin_address][:state],
+                                            city: params[:origin_address][:city],
+                                            zip: params[:origin_address][:zip])
+  end
 end
