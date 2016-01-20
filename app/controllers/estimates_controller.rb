@@ -1,9 +1,10 @@
 class EstimatesController < ApplicationController
   include Estimator
 
-  def make_quote
+  def quote
     QuoteCalulator.query(shipping_params)
   end
+
 
 
 
