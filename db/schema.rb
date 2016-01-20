@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160120002358) do
+ActiveRecord::Schema.define(version: 20160120005341) do
 
   create_table "estimates", force: :cascade do |t|
     t.integer  "price"
@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 20160120002358) do
     t.string   "service_name"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.integer  "shipping_id"
+    t.integer  "shipment_id"
   end
 
   create_table "locations", force: :cascade do |t|
@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20160120002358) do
     t.string   "dimensions"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-    t.integer  "shipping_id"
+    t.integer  "shipment_id"
   end
 
   create_table "shipments", force: :cascade do |t|
