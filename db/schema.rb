@@ -11,7 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160119231219) do
+
+ActiveRecord::Schema.define(version: 20160120002358) do
+
 
   create_table "estimates", force: :cascade do |t|
     t.integer  "price"
@@ -19,6 +21,7 @@ ActiveRecord::Schema.define(version: 20160119231219) do
     t.string   "service_name"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.integer  "shipping_id"
   end
 
   create_table "locations", force: :cascade do |t|
@@ -33,8 +36,9 @@ ActiveRecord::Schema.define(version: 20160119231219) do
   create_table "packages", force: :cascade do |t|
     t.integer  "weight"
     t.string   "dimensions"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "shipping_id"
   end
 
   create_table "shipments", force: :cascade do |t|
