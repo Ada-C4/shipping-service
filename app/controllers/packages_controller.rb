@@ -1,20 +1,13 @@
 class PackagesController < ApplicationController
 
   def rates
-    weight = params[:order_item][:product][:weight]
-
-    # "order_item":{"product":{"weight": "500"}}
-    package = ActiveShipping::Package.new(weight, [10, 20, 30], :units => :metric)
+    package = create_package
     origin = ActiveShipping::Location.new(country: 'US',
                                        state: 'CA',
                                        city: 'Beverly Hills',
                                        zip: '90210')
 
-    destination = ActiveShipping::Location.new(country: 'CA',
-                                            province: 'ON',
-                                            city: 'Ottawa',
-                                            postal_code: 'K1P 1J1')
-
+    destination = create_destination
     # Verified USPS works
     usps = ActiveShipping::USPS.new(login: ENV["USPS_USERNAME"], password: ENV["USPS_PASSWORD"])
     response = usps.find_rates(origin, destination, package)
@@ -32,6 +25,22 @@ class PackagesController < ApplicationController
     # response = fedex.find_rates(origin, destination, package)
     # fedex_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
 
-
   end
+
+  private
+
+  def create_package
+    @package = ActiveShipping::Package.new(100, [10, 20, 30], :units => :metric)
+  end
+
+  def create_destination
+    @destination = ActiveShipping::Location.new(country: params[:destination_address][:country],
+                                            state: params[:destination_address][:state],
+                                            city: params[:destination_address][:city],
+                                            zip: params[:destination_address][:zip])
+  end
+
+  # "product[name]=Responsive Web Design with HTML5 and CSS3&product[sku]=1849693188&product[publisher]=Packt Publishing (April 10, 2012)"
+  # "destination_address[country]=US&destination_address[state]=WA&destination_address[city]=Seattle&destination_address[98112]"
+
 end
