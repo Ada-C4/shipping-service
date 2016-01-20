@@ -1,3 +1,4 @@
+require './lib/Estimator.rb'
 class EstimatesController < ApplicationController
   include Estimator
 
