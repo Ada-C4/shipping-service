@@ -4,8 +4,8 @@ class Shipment < ActiveRecord::Base
   attr_reader :origin, :destination, :packages
 
   def initialize(hash)
-    @origin = Location.new(params[:origin])
-    @destination = Location.new(params[:destination])
+    @origin = Location.find_or_create_by(params[:origin])
+    @destination = Location.find_or_create_by(params[:destination])
     @packages = []
     params[:packages].each { |package| @packages << Package.new(package) }
   end
