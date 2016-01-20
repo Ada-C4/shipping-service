@@ -3,35 +3,26 @@ require 'rails_helper'
 RSpec.describe Shipment, type: :model do
 
   describe "initialize" do
-    it "sets the @origin instance variable" do
+    it "sets @origin" do
       
     end
-  end
-  describe "get_quotes" do
-    
-  end
-
-  describe "get_origin" do
-
-  end
-  describe "get_destination" do
-    it "creates a new Location object" do
+    it "sets @destination"
+    it "creates an Estimate object for each shipping method" do
       
     end
-  end
-  describe "get_packages" do
+    it "sets @packages" do
+      expect(shipment.packages).to be_a(Array)
+    end
     it "creates at least one new Package object" do
       
     end
-    # Not sure if this is the best way to phrase this test
     it "creates a Package for each orderitem in the Order" do
       
     end
   end
-  describe "get_estimate" do
-    it "creates an Estimate object for each shipping method" do
-      
-    end
+
+  describe "get_quotes" do
+    
   end
 
 end
