@@ -10,6 +10,7 @@ class EstimatesController < ApplicationController
 private
 
   def shipping_params
+    #params.require().permit()
   end
 
 
