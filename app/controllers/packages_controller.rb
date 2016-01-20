@@ -2,23 +2,26 @@ class PackagesController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def rates
-    package = create_package(params)
-    origin = create_origin(params)
-    destination = create_destination(params)
-    
-    # Verified USPS works
-    usps = ActiveShipping::USPS.new(login: ENV["USPS_USERNAME"], password: ENV["USPS_PASSWORD"])
-    response = usps.find_rates(origin, destination, package)
-    usps_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
+    begin
+      package = create_package(params)
+      origin = create_origin(params)
+      destination = create_destination(params)
 
-    # Verified UPS works
-    ups = ActiveShipping::UPS.new(login: ENV["UPS_ACCOUNT_NAME"], password: ENV["UPS_ACCOUNT_PASSWORD"], key: ENV["UPS_ACCESS_KEY"])
-    response = ups.find_rates(origin, destination, package)
-    ups_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
+      # Verified USPS works
+      usps = ActiveShipping::USPS.new(login: ENV["USPS_USERNAME"], password: ENV["USPS_PASSWORD"])
+      response = usps.find_rates(origin, destination, package)
+      usps_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
 
-    all_rates = { ups: ups_rates, usps: usps_rates }
-    render :json => all_rates.as_json
+      # Verified UPS works
+      ups = ActiveShipping::UPS.new(login: ENV["UPS_ACCOUNT_NAME"], password: ENV["UPS_ACCOUNT_PASSWORD"], key: ENV["UPS_ACCESS_KEY"])
+      response = ups.find_rates(origin, destination, package)
+      ups_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
 
+      all_rates = { ups: ups_rates, usps: usps_rates }
+      render :json => all_rates.as_json
+    rescue
+      render :json => [], :status => :no_content
+    end
     # fedex = ActiveShipping::FedEx.new(login: ENV["FEDEX_ACCOUNT_NAME"], password: ENV["FEDEX_ACCOUNT_PASSWORD"], key: ENV["FEDEX_TEST_KEY"], account: ENV["FEDEX_TEST_ACCOUNT_NUMBER"])
     # response = fedex.find_rates(origin, destination, package)
     # fedex_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
