@@ -4,6 +4,9 @@ class EstimatesController < ApplicationController
 
   def quote
     QuoteCalulator.query(shipping_params)
+    #takes shipping params
+    #does stuff with estimator wrapper
+    #renders json
   end
 
 

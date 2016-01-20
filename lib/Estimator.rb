@@ -15,13 +15,13 @@ module Estimator
       # Location.new(country: "US", state: "CA", city: "Los Angeles", postal_code: "90001")
       #rough draft- may need helpers for params
       #in wetsy, we will get this from the "merchant"
-        Location.new(shipping_params[:origin])
+        Location.new(shipping_params)
     end
 
     def destination
       # Location.new(country: country, state: state, city: city, postal_code: postal_code)
       #in wetsy this will come from the "order"
-      Location.new(shipping_params[:destination])
+      Location.new(shipping_params[:destination[:country, :state, :city, :zip, :postal_code]])
     end
 
     def packages
