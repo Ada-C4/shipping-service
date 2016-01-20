@@ -7,6 +7,10 @@ def shipment
   packages = params[:packages].each do |package|
     Package.new(package)
   end
+  shipment.origin = origin
+  shipment.destinatiopn = destination 
+  shipment.packages = packages
+  shipment.save
   quotes = []
   ups = ActiveShipping::UPS.new("put login and keys here")
   ups_quote = ups.find_rates(origin, destination, packages)
