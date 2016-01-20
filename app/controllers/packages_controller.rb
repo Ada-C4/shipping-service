@@ -1,7 +1,10 @@
 class PackagesController < ApplicationController
 
   def rates
-    package = ActiveShipping::Package.new(100, [10, 20, 30], :units => :metric)
+    weight = params[:order_item][:product][:weight]
+
+    # "order_item":{"product":{"weight": "500"}}
+    package = ActiveShipping::Package.new(weight, [10, 20, 30], :units => :metric)
     origin = ActiveShipping::Location.new(country: 'US',
                                        state: 'CA',
                                        city: 'Beverly Hills',
