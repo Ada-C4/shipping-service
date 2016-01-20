@@ -1,15 +1,13 @@
 class ShipmentsController < ApplicationController
-
+include ShipmentsHelper
   def estimate
-    shipment = Shipment.new(shipment_params)
-    shipment.get_shipping_cost
-    #return both datas as JSON
-  end
+    package = ActiveShipping::Package.new(params)
+    packages = [package]
+    origin = ActiveShipping::Location.new(params)
+    destination = ActiveShipping::Location.new(params)
 
-private
-
-  def shipment_params
-    params.require(:shipment).permit(:name, :country, :city, :state, :postal_code, :length, :width, :height, :weight, :cylinder)
+    ups = ups_rates(origin, destination, pacakages)
+    usps = usps_rates(origin, destination, packages)
   end
 
 end
