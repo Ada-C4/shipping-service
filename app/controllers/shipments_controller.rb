@@ -1,6 +1,7 @@
 class ShipmentsController < ApplicationController
 
 def shipment
+  # maybe move some of this stuff to models?
   shipment = Shipment.new
   origin = Location.new(params[:origin])
   destination = Location.new(params[:destination])
