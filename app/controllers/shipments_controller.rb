@@ -8,9 +8,9 @@ def shipment
     Package.new(package)
   end
   quotes = []
-  ups = ActiveShipping::UPS.new()
+  ups = ActiveShipping::UPS.new("put login and keys here")
   ups_quote = ups.find_rates(origin, destination, packages)
-  fedex = ActiveShipping::FedEx.new()
+  fedex = ActiveShipping::FedEx.new("put login and keys here")
   fedex_quote = "get quote from fedex"
   quotes << ups_quote
   quotes << fedex_quote
