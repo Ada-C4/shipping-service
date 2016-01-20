@@ -8,6 +8,8 @@ include ShipmentsHelper
 
     ups = ups_rates(origin, destination, pacakages)
     usps = usps_rates(origin, destination, packages)
+    #combine ups and usps into one json object
+    #return that object to seabay
   end
 
 end

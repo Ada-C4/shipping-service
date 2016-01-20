@@ -7,9 +7,9 @@ module ShipmentsHelper
   end
 
   def usps_rates(origin, destination, packages)
-  usps = ActiveShipping::USPS.new(login: ENV['USPS_PASSWORD'])
-  response = usps.find_rates(origin, destination, packages)
+    usps = ActiveShipping::USPS.new(login: ENV['USPS_PASSWORD'])
+    response = usps.find_rates(origin, destination, packages)
 
-  usps_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
- end
+    usps_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
+  end
 end
