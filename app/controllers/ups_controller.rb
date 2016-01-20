@@ -1,0 +1,2 @@
+class UpsController < ApplicationController
+end
