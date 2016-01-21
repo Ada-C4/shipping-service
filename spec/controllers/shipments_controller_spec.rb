@@ -8,6 +8,30 @@ RSpec.describe ShipmentsController, type: :controller do
       { weight: 100, dimensions: [6, 6, 8] }]
     }
   end
+  let (:no_origin_params) do
+    { destination: { country: "US", city: "Seattle", state: "WA", zip: 98105 },
+    packages: [{ weight: 400, dimensions: [4, 5, 6] },
+      { weight: 100, dimensions: [6, 6, 8] }] }
+  end
+  let(:no_destination_params) do
+    { origin: { country: "US", city: "Seattle", state: "WA", zip: 98105 },
+    packages: [{ weight: 400, dimensions: [4, 5, 6] },
+      { weight: 100, dimensions: [6, 6, 8] }]
+    }
+  end
+  let(:no_packages_params) do
+    { origin: { country: "US", city: "Seattle", state: "WA", zip: 98105 },
+    destination: { country: "US", city: "Seattle", state: "WA", zip: 98105 },
+    packages: [{ weight: 400, dimensions: [4, 5, 6] },
+      { weight: 100, dimensions: [6, 6, 8] }]
+    }
+  end
+  let(:empty_packages_params) do
+    { origin: { country: "US", city: "Seattle", state: "WA", zip: 98105 },
+    destination: { country: "US", city: "Seattle", state: "WA", zip: 98105 },
+    packages: []
+    }
+  end
 
   describe "GET 'shipment'", :vcr do
 
@@ -61,6 +85,24 @@ RSpec.describe ShipmentsController, type: :controller do
       it "each internal array has integer as 2nd item within 1st item" do
         expect(assigns(:quotes)[0][0][1]).to eq 2396
       end
+    end
+  end
+
+  context "with bad requests" do
+    it "must have an origin" do
+      get :shipment, no_origin_params
+      expect(response.status).to eq(400)
+      expect(response.body).to include("You didn't submit the correct information.")
+    end
+    it "must have a destination" do
+      get :shipment, no_destination_params
+      expect(response.status).to eq(400)
+      expect(response.body).to include("You didn't submit the correct information.")
+    end
+    it "must have packages" do
+      get :shipment, no_packages_params
+      expect(response.status).to eq(400)
+      expect(response.body).to include("You didn't submit the correct information.")
     end
   end
 

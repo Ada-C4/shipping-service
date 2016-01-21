@@ -1,6 +1,8 @@
 class ShipmentsController < ApplicationController
   def shipment
-    if params.include?("destination")
+    if !params.include?("destination") || !params.include?("origin") || !params.include?("packages")
+      render:json => ["You didn't submit the correct information."].as_json, :status => :bad_request
+    else
       origin = ActiveShipping::Location.new(country: 'US', state: 'CA', city: 'Beverly Hills', zip: '90210')
 
       destination = ActiveShipping::Location.new(country: params[:destination][:country], state: params[:destination][:state], city: params[:destination][:city], zip: params[:destination][:zip])
@@ -16,8 +18,6 @@ class ShipmentsController < ApplicationController
 
       @quotes = get_quotes(origin, destination, packages)
       render :json => @quotes.as_json
-    else 
-      render:json => ["You didn't submit the correct information."].as_json
     end
   end
 
