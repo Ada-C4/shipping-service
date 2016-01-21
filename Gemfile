@@ -35,6 +35,11 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'active_shipping'
 gem 'dotenv-rails'
 
+group :test do
+  gem 'vcr', '~> 3.0', '>= 3.0.1'
+  gem 'webmock', '~> 1.22', '>= 1.22.6'
+end
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
