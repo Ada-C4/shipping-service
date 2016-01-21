@@ -5,7 +5,7 @@ class EstimatesController < ApplicationController
 
   def get_quote
     ship_params = strong_shipping_params
-    query= Shipments.query(ship_params)
+    quote = Shipments.query(ship_params)
     #takes shipping params
     #does stuff with estimator wrapper
     #renders json
