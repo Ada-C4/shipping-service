@@ -7,6 +7,7 @@ class PackagesController < ApplicationController
       origin = create_origin(params)
       destination = create_destination(params)
 
+
       # Verified USPS works
       # usps = ActiveShipping::USPS.new(login: ENV["USPS_USERNAME"], password: ENV["USPS_PASSWORD"])
       # response = usps.find_rates(origin, destination, package)
@@ -22,6 +23,7 @@ class PackagesController < ApplicationController
       fedex_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
 
       all_rates = { ups: ups_rates, fedex: fedex_rates }
+
       render :json => all_rates.as_json
     rescue
       render :json => [], :status => :no_content
