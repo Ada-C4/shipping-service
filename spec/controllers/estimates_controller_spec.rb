@@ -17,21 +17,25 @@ RSpec.describe EstimatesController, type: :controller do
                 :state => "MA",
                 :city => "Hinsdale",
                 :postal_code => "01235"},
-              :package_item =>
-              {:weight => 12,
-              :height => 15,
-              :length => 10,
-              :width => 12 }},
+              :package_items =>
+              [{ :weight => 12,
+                :height => 15,
+                :length => 10,
+                :width => 12 },
+               { :weight => 3,
+                 :height => 11,
+                 :length => 1,
+                 :width => 14 }]},
             { :origin =>
               { :country => "US",
                 :state => "CT",
                 :city => "New London",
                 :postal_code => "06320"},
-              :package_item =>
-                {:weight => 9,
+              :package_items =>
+                [{:weight => 9,
                 :height => 2,
                 :length => 17,
-                :width => 14 }}]
+                :width => 14 }]}]
           }
         }
     end
