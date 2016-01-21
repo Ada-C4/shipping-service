@@ -1,5 +1,5 @@
 module Estimator
-  class QuoteCalculator < ActiveRecord::Base
+  class Shipments < ActiveRecord::Base
     validates :name, presence: true
     validates :country, presence: true
     validates :city, presence: true

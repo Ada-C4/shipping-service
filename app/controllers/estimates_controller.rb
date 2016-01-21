@@ -1,8 +1,10 @@
 class EstimatesController < ApplicationController
   include Estimator
+  require 'active_shipping'
 
   def quote
-    quote = QuoteCalulator.query(shipping_params)
+    shipments = Shipments.new(shipping_params)
+    query= shipments.query(shipping_params)
     #takes shipping params
     #does stuff with estimator wrapper
     #renders json
