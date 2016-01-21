@@ -42,7 +42,7 @@ module Estimator
       get_rates_from_shipper(usps)
     end
 
-    def self.query()
+    def self.query(shipping_params)
       #make query in here to get quotes
 
     end

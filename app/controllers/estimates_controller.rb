@@ -3,7 +3,7 @@ class EstimatesController < ApplicationController
   require 'active_shipping'
 
   def quote
-    query= Shipments.query(params)
+    query= Shipments.query(shipping_params)
     #takes shipping params
     #does stuff with estimator wrapper
     #renders json

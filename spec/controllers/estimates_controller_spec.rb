@@ -4,38 +4,40 @@ require 'pry'
 RSpec.describe EstimatesController, type: :controller do
   describe "GET 'quote'" do
 
-    let(:shipping_params) do
-      { :destination =>
-        { :country => "US",
-          :state => "WA",
-          :city => "Seattle",
-          :postal_code => "98122"},
-        :packages =>
-        {1 =>
-          { :origin =>
-            { :country => "US",
-              :state => "MA",
-              :city => "Hinsdale",
-              :postal_code => "01235"},
-            :package_item =>
-            {:weight => 12,
-            :dimensions => [15, 10, 4.5] }},
-         2 =>
-          { :origin =>
-            { :country => "US",
-              :state => "CT",
-              :city => "New London",
-              :postal_code => "06320"},
-            :package_item =>
-              {:weight => 9,
-              :dimensions => [2, 10, 4.5] }}
+    let(:params) do
+      { :shipping_params =>
+         {:destination =>
+          { :country => "US",
+            :state => "WA",
+            :city => "Seattle",
+            :postal_code => "98122"},
+          :packages =>
+          {1 =>
+            { :origin =>
+              { :country => "US",
+                :state => "MA",
+                :city => "Hinsdale",
+                :postal_code => "01235"},
+              :package_item =>
+              {:weight => 12,
+              :dimensions => [15, 10, 4.5] }},
+           2 =>
+            { :origin =>
+              { :country => "US",
+                :state => "CT",
+                :city => "New London",
+                :postal_code => "06320"},
+              :package_item =>
+                {:weight => 9,
+                :dimensions => [2, 10, 4.5] }}
+            }
+          }
         }
-      }
     end
 
 
     it "is successful" do
-      post :quote, shipping_params, { format: :json }
+      post :quote, params, { format: :json }
       expect(response.response_code).to eq 200
     end
 
