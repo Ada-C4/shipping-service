@@ -25,7 +25,11 @@ RSpec.describe EstimatesController, type: :controller do
                { :weight => 3,
                  :height => 11,
                  :length => 1,
-                 :width => 14 }]},
+                 :width => 14 },
+               { :weight => 30,
+                 :height => 3,
+                 :length => 40,
+                 :width => 5 }]},
             { :origin =>
               { :country => "US",
                 :state => "CT",

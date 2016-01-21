@@ -27,7 +27,7 @@ module Estimator
                         destination: active_destination,
                         package: active_package
                         }
-        shipment_array >> package_hash
+        shipment_array << package_hash
       end
       return shipment_array
     end
@@ -39,6 +39,8 @@ module Estimator
       weight = package[:package_items].map {|item| item[:weight].to_i}.sum
       longest_package = package[:package_items].max_by{|item| item[:length]}
       length = longest_package[:length]
+      width = package[:package_items].map {|item| item[:width].to_i}.sum
+      height =  package[:package_items].map {|item| item[:height].to_i}.sum
       binding.pry
       return package_info
 
