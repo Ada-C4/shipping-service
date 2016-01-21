@@ -12,8 +12,7 @@ RSpec.describe EstimatesController, type: :controller do
             :city => "Seattle",
             :postal_code => "98122"},
           :packages =>
-          {1 =>
-            { :origin =>
+            [{ :origin =>
               { :country => "US",
                 :state => "MA",
                 :city => "Hinsdale",
@@ -21,7 +20,6 @@ RSpec.describe EstimatesController, type: :controller do
               :package_item =>
               {:weight => 12,
               :dimensions => [15, 10, 4.5] }},
-           2 =>
             { :origin =>
               { :country => "US",
                 :state => "CT",
@@ -29,8 +27,7 @@ RSpec.describe EstimatesController, type: :controller do
                 :postal_code => "06320"},
               :package_item =>
                 {:weight => 9,
-                :dimensions => [2, 10, 4.5] }}
-            }
+                :dimensions => [2, 10, 4.5] }}]
           }
         }
     end
