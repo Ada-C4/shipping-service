@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'pry'
 
 RSpec.describe ShipmentsController, type: :controller do
   let(:successful_params) do
@@ -22,8 +23,6 @@ RSpec.describe ShipmentsController, type: :controller do
   let(:no_packages_params) do
     { origin: { country: "US", city: "Seattle", state: "WA", zip: 98105 },
     destination: { country: "US", city: "Seattle", state: "WA", zip: 98105 },
-    packages: [{ weight: 400, dimensions: [4, 5, 6] },
-      { weight: 100, dimensions: [6, 6, 8] }]
     }
   end
   let(:empty_packages_params) do
