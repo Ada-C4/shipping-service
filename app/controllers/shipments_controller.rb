@@ -7,17 +7,22 @@ class ShipmentsController < ApplicationController
 
       destination = ActiveShipping::Location.new(country: params[:destination][:country], state: params[:destination][:state], city: params[:destination][:city], zip: params[:destination][:zip])
       packages = []
+      if !params[:packages].nil?
+        params[:packages].each do |package|
+          weight = package[:weight].to_i
+          dimensions = package[:dimensions].to_a.map! { |num| num.to_i }
 
-      params[:packages].each do |package|
-        weight = package[:weight].to_i
-        dimensions = package[:dimensions].to_a.map! { |num| num.to_i }
+          pack = ActiveShipping::Package.new(weight, dimensions)
+          packages << pack
 
-        pack = ActiveShipping::Package.new(weight, dimensions)
-        packages << pack
+          @quotes = get_quotes(origin, destination, packages)
+          render :json => @quotes.as_json
+        end
+      else
+        render:json => ["Packages is empty"].as_json, :status => :bad_request
       end
 
-      @quotes = get_quotes(origin, destination, packages)
-      render :json => @quotes.as_json
+
     end
   end
 
