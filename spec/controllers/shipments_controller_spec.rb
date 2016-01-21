@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe ShipmentsController, type: :controller do
   let(:successful_params) do
-    { origin: { country: "USA", city: "Seattle", state: "WA", zip: 98105 },
-    destination: { country: "USA", city: "Seattle", state: "WA", zip: 98105 },
+    { origin: { country: "US", city: "Seattle", state: "WA", zip: 98105 },
+    destination: { country: "US", city: "Seattle", state: "WA", zip: 98105 },
     packages: [{ weight: 400, dimensions: [4, 5, 6] },
       { weight: 100, dimensions: [6, 6, 8] }]
     }
