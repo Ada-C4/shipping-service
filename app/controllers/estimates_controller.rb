@@ -23,7 +23,6 @@ class EstimatesController < ApplicationController
 private
 
   def strong_shipping_params
-    binding.pry
     params.require(:shipping_params).permit(:destination => [:country, :state, :city, :postal_code], :packages => {:origin => [:country, :state, :city, :postal_code], :package_items => [:weight, :height, :length, :width]})
   end
 
