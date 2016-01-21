@@ -18,10 +18,10 @@ module Estimator
       #notice that because there are multiple package items, each package needs to be packed by calling on the pack_items method
       shipment_array = []
       ship_params[:packages].each do |package|
-        packed = pack_items(package)
+        package_info = pack_items(package)
         active_origin = ActiveShipping::Location.new(package[:origin])
         active_destination = destination(ship_params)
-        active_package = ActiveShipping::Package.new(packed)
+        active_package = ActiveShipping::Package.new(package_info[:weight], package_info[:dimensions], :units => :imperial)
 
         package_hash = {origin: active_origin,
                         destination: active_destination,
@@ -38,12 +38,11 @@ module Estimator
       #this method assumes the length is the longest dimension
       weight = package[:package_items].map {|item| item[:weight].to_i}.sum
       longest_package = package[:package_items].max_by{|item| item[:length]}
-      length = longest_package[:length]
+      length = longest_package[:length].to_i
       width = package[:package_items].map {|item| item[:width].to_i}.sum
       height =  package[:package_items].map {|item| item[:height].to_i}.sum
-      binding.pry
+      package_info = {weight: weight, dimensions: [length, width, height]}
       return package_info
-
     end
 
     def self.destination(ship_params)
