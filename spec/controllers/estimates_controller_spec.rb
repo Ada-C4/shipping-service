@@ -22,11 +22,11 @@ RSpec.describe EstimatesController, type: :controller do
                 :height => 15,
                 :length => 10,
                 :width => 12 },
-               { :weight => 3,
+               { :weight => 3.453,
                  :height => 11,
                  :length => 1,
                  :width => 14 },
-               { :weight => 30,
+               { :weight => 30.45,
                  :height => 3,
                  :length => 40,
                  :width => 5 }]},
@@ -36,7 +36,7 @@ RSpec.describe EstimatesController, type: :controller do
                 :city => "New London",
                 :postal_code => "06320"},
               :package_items =>
-                [{:weight => 9,
+                [{:weight => 9.45,
                 :height => 2,
                 :length => 17,
                 :width => 14 }]}]

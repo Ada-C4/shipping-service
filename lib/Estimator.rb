@@ -60,21 +60,26 @@ module Estimator
     #   end
     # end
 
+    def self.ups
+      ActiveShipping::UPS.new(login: 'shopifolk', password: 'Shopify_rocks', key: '7CE85DED4C9D07AB')
+    end
+
     def self.ups_rates(shipment_array)
-      ups = ActiveShipping::UPS.new(login: 'shopifolk', password: 'Shopify_rocks', key: '7CE85DED4C9D07AB')
+      #ups_rates is an array of hashes with different shipping services and their cost.
+      #total_ups_rates creates as array summing the cost of each of the packages for the same service
+      #this is where are are taking all the packages from each different merchant and summing their shipping costs
       ups_rates = []
         shipment_array.each do |shipment|
             response = ups.find_rates(shipment[:origin], shipment[:destination], shipment[:package])
-            sorted_rates = response.rates.sort_by(&:price)
+            sorted_rates = (response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}).to_h
             ups_rates << sorted_rates
         end
-      return ups_rates
+
+      total_ups_rates = Hash.new(0)
+      ups_rates.each { |subhash| subhash.each { |service, cost| total_ups_rates[service] += cost } }
+      return total_ups_rates
     end
 
-    def fedex_rates
-      fedex = FedEx.new(login: "your fedex login", password: "your fedex password", key: "your fedex key", account: "your fedex account number")
-      get_rates_from_shipper(fedex)
-    end
 
     def usps_rates
       usps = USPS.new(login: 'your usps account number', password: 'your usps password')
