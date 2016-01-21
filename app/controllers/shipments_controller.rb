@@ -9,7 +9,8 @@ respond_to :json
 
     ups = ups_rates(origin, destination, packages)
     render :json => ups.as_json, :status => :ok
-    # usps = usps_rates(origin, destination, packages)
+    usps = usps_rates(origin, destination, packages)
+    render :json => usps.as_json, :status => :ok
     #combine ups and usps into one json object
     #return that object to seabay
   end
@@ -34,6 +35,13 @@ private
     response = ups.find_rates(origin, destination, packages)
 
     ups_rate_response = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
+  end
+
+  def usps_rates(origin, destination, packages)
+    usps = ActiveShipping::USPS.new(login: ENV['USPS_USERNAME'])
+    response = usps.find_rates(origin, destination, packages)
+
+    usps_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
   end
 
 end
