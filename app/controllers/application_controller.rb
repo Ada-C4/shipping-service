@@ -4,6 +4,15 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   #query ups for prices
+  def prepare
+    
+    if shipper == "ups"
+      ups_get_rates
+    elsif shipper == "usps"
+      usps_get_rates
+    end
+  end
+
   def ups_get_rates(orgin, destination, packages)
     ups = ActiveShipping::UPS.new(login: ENV['UPS_LOGIN'], password: ENV['UPS_PASSWORD'], key: ENV['UPS_KEY'])
     response = ups.find_rates(origin, destination, packages)
@@ -15,4 +24,6 @@ class ApplicationController < ActionController::Base
     response = usps.find_rates(origin, destination, packages)
     usps_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
   end
+
+  def
 end
