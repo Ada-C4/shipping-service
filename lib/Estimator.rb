@@ -7,15 +7,41 @@ module Estimator
       #make query in here to get quotes
       quote = {:hi => "how are you"}
       dest = destination(ship_params)
+      shipment_array(ship_params)
       return quote
     end
 
-    def self.origins_array
+    def self.shipment_array(ship_params)
       # Location.new(country: "US", state: "CA", city: "Los Angeles", postal_code: "90001")
-      #rough draft- may need helpers for params
-      #in wetsy, we will get this from the "merchant"
-      #make an array of origins to iterate through
-        Location.new(shipping_params)
+      #from params, goes through packages and gets each one in the format needed to make the call to active shipping
+      #the shipment array is an array of hashes. each hash has a key and the value is an object that can be used by active shipping to make the call to the shipping service
+      #notice that because there are multiple package items, each package needs to be packed by calling on the pack_items method
+      shipment_array = []
+      ship_params[:packages].each do |package|
+        packed = pack_items(package)
+        active_origin = ActiveShipping::Location.new(package[:origin])
+        active_destination = destination(ship_params)
+        active_package = ActiveShipping::Package.new(packed)
+
+        package_hash = {origin: active_origin,
+                        destination: active_destination,
+                        package: active_package
+                        }
+        shipment_array >> package_hash
+      end
+      return shipment_array
+    end
+
+    def self.pack_items(package)
+      #different items from the same merchant will be packed together into one package
+      #a simple way to do this is to find the longest length and and add together the widths and heights. return the total weight and the dimensions of this package.
+      #this method assumes the length is the longest dimension
+      weight = package[:package_items].map {|item| item[:weight].to_i}.sum
+      longest_package = package[:package_items].max_by{|item| item[:length]}
+      length = longest_package[:length]
+      binding.pry
+      return package_info
+
     end
 
     def self.destination(ship_params)
