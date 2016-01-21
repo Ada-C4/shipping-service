@@ -44,7 +44,8 @@ module Estimator
 
     def self.query(shipping_params)
       #make query in here to get quotes
-
+      quote = {"hi": {"how are you"}}
+      return quote
     end
 
   end
