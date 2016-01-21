@@ -1,8 +1,8 @@
 class ServicesController < ApplicationController
   ## EXAMPLE
     # params = { packages: [{ dimensions: [25, 10, 15], weight: 500 }, { dimensions: [18, 30, 10], weight: 5000 }], origin: { state: "WA", city: "Seattle", zip: "98101" }, destination: { state: "IL", city: "Vernon Hills", zip: "60061" } }.to_json
-    # r = HTTParty.post("http://localhost:3000/ups", headers: { 'Content-Type' => 'application/json' }, body: params)
-    # r = HTTParty.post("http://localhost:3000/usps", headers: { 'Content-Type' => 'application/json' }, body: params)
+    # r = HTTParty.post("http://localhost:3000/ups/", headers: { 'Content-Type' => 'application/json' }, body: params)
+    # r = HTTParty.post("http://shipple.herokuapp.com/usps/", headers: { 'Content-Type' => 'application/json' }, body: params)
 
   def ship
     packages = set_packages
@@ -15,7 +15,16 @@ class ServicesController < ApplicationController
     end
 
     response = service.find_rates(origin, destination, packages)
-    service_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price, rate.delivery_date]}
+    service_rates = response.rates
+      .sort_by(&:price)
+      .collect do |rate|
+        {
+          rate: rate.service_name,
+          price: rate.price,
+          date: rate.delivery_date
+        }
+      end
+
     data_hash = { data: service_rates }
 
     render :json => data_hash.as_json, :status => :ok
