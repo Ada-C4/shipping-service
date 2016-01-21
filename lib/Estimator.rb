@@ -6,13 +6,13 @@ module Estimator
     def self.query(ship_params)
       #make query in here to get quotes
       quote = {:hi => "how are you"}
-      dest = destination(ship_params)
-      shipment_array(ship_params)
+      shipment_array = shipment_array(ship_params)
+      ups_rates(shipment_array)
+
       return quote
     end
 
     def self.shipment_array(ship_params)
-      # Location.new(country: "US", state: "CA", city: "Los Angeles", postal_code: "90001")
       #from params, goes through packages and gets each one in the format needed to make the call to active shipping
       #the shipment array is an array of hashes. each hash has a key and the value is an object that can be used by active shipping to make the call to the shipping service
       #notice that because there are multiple package items, each package needs to be packed by calling on the pack_items method
@@ -46,26 +46,30 @@ module Estimator
     end
 
     def self.destination(ship_params)
-      # Location.new(country: country, state: state, city: city, postal_code: postal_code)
-      #in wetsy this will come from the "order"
+      # keeping destination as a separate method since that's how params will come in from wetsy.
+      #would have been better maybe to keep it more general for our api, so that packages can have any destination. But that's ok.
       ActiveShipping::Location.new(ship_params[:destination])
     end
 
-    def packages
-      #ideally, wetsy combines multiple items from the same merchant into one package
-      #each merchant therefore sends just one package
-      #we WILL have multiple packages per estimate
-      package = Package.new(weight, [length, width, height])
-    end
 
-    def get_rates_from_shipper(shipper)
-      response = shipper.find_rates(origin, destination, packages)
-      response.rates.sort_by(&:price)
-    end
+    #takes array of shipments and gets estimates from a given shipper
+    # def get_rates_from_shipper(shipper, shipment_array)
+    #   shipment_array.each do |shipment|
+    #     response = shipper.find_rates(shipment)
+    #     response.rates.sort_by(&:price)
+    #   end
+    # end
 
-    def ups_rates
-      ups = UPS.new(login: 'your ups login', password: 'your ups password', key: 'your ups xml key')
-      get_rates_from_shipper(ups)
+    def self.ups_rates(shipment_array)
+      ups = ActiveShipping::UPS.new(login: 'shopifolk', password: 'Shopify_rocks', key: '7CE85DED4C9D07AB')
+      ups_rates = []
+        shipment_array.each do |shipment|
+            response = ups.find_rates(shipment[:origin], shipment[:destination], shipment[:package])
+            sorted_rates = response.rates.sort_by(&:price)
+            binding.pry
+            ups_rates << sorted_rates
+        end
+      return ups_rates
     end
 
     def fedex_rates
