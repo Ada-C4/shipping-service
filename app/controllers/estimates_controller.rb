@@ -1,9 +1,10 @@
 class EstimatesController < ApplicationController
   include Estimator
   require 'active_shipping'
+  require 'pry'
 
   def quote
-    query= Shipments.query(shipping_params)
+    query= Shipments.query(strong_shipping_params)
     #takes shipping params
     #does stuff with estimator wrapper
     #renders json
@@ -20,8 +21,9 @@ class EstimatesController < ApplicationController
 
 private
 
-  def shipping_params
-    params.require(:shipping_params).permit([:destination[:country, :state, :city, :postal_code], :package[:origin[:country, :state, :city, :postal_code], :package_item[:weight, :dimensions]]])
+  def strong_shipping_params
+    binding.pry
+    params.require(:shipping_params).permit(:destination => [:country, :state, :city, :postal_code], :packages => {:origin => [:country, :state, :city, :postal_code], :package_item => [:weight, :height, :length, :width]})
   end
 
 

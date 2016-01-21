@@ -19,7 +19,9 @@ RSpec.describe EstimatesController, type: :controller do
                 :postal_code => "01235"},
               :package_item =>
               {:weight => 12,
-              :dimensions => [15, 10, 4.5] }},
+              :height => 15,
+              :length => 10,
+              :width => 12 }},
             { :origin =>
               { :country => "US",
                 :state => "CT",
@@ -27,7 +29,9 @@ RSpec.describe EstimatesController, type: :controller do
                 :postal_code => "06320"},
               :package_item =>
                 {:weight => 9,
-                :dimensions => [2, 10, 4.5] }}]
+                :height => 2,
+                :length => 17,
+                :width => 14 }}]
           }
         }
     end
