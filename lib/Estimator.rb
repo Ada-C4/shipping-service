@@ -1,6 +1,12 @@
 module Estimator
   class Shipments < ActiveRecord::Base
 
+    def self.query(strong_shipping_params)
+      #make query in here to get quotes
+      quote = {:hi => "how are you"}
+      return quote
+    end
+
     def origins_array
       # Location.new(country: "US", state: "CA", city: "Los Angeles", postal_code: "90001")
       #rough draft- may need helpers for params
@@ -41,12 +47,5 @@ module Estimator
       usps = USPS.new(login: 'your usps account number', password: 'your usps password')
       get_rates_from_shipper(usps)
     end
-
-    def self.query(shipping_params)
-      #make query in here to get quotes
-      quote = {"hi": {"how are you"}}
-      return quote
-    end
-
   end
 end

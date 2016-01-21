@@ -3,8 +3,9 @@ class EstimatesController < ApplicationController
   require 'active_shipping'
   require 'pry'
 
-  def quote
-    query= Shipments.query(strong_shipping_params)
+  def get_quote
+    ship_params = strong_shipping_params
+    query= Shipments.query(ship_params)
     #takes shipping params
     #does stuff with estimator wrapper
     #renders json
