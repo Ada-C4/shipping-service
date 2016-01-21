@@ -12,28 +12,28 @@ class CarriersController < ApplicationController
     # create an array of ActiveShipping Package objects with package params
     packages = Carrier.create_packages(params[:packages]) # as an array
 
-    # set up UPS with credentials
+    # set up UPS with credentials, get response and sort
     ups = Carrier.activate_ups
-
-    # get a UPS response
     response = ups.find_rates(origin, destination, packages)
+    ups_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]} # could add other fields
 
-    # sort/collect the response
-    ups_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
-
-    # to do : turn this into JSON
-
-
-    # set up USPS with credentials
+    # set up USPS with credentials, get response and sort
     usps = Carrier.activate_usps
-
-    # get a USPS response
     response = usps.find_rates(origin, destination, packages)
-
-    # sort/collect the response
     usps_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
 
-    # turn this into JSON
+    # examine the rates for errors and turn this into JSON
+    if ups_rates && usps_rates
+      all_rates = ups_rates.concat(usps_rates)
+      render :json => all_rates.as_json, :status => :ok
+    elsif ups_rates
+      render :json => ups_rates.as_json, :status => :partial_content
+    elsif usps_rates
+      render :json => usps_rates.as_json, :status => :partial_content
+    else
+      render :json => [], :status => :no_content
+    end
+
 
   end
 
