@@ -8,9 +8,8 @@ RSpec.describe ShipmentsController, type: :controller do
       { weight: 100, dimensions: [6, 6, 8] }]
     }
   end
-  let(:keys) { ["price", "carrier", "service_name", "id"] }
 
-  describe "GET 'shipment'" do
+  describe "GET 'shipment'", :vcr do
     it "is successful" do
       get :shipment, successful_params
       expect(response.response_code).to eq 200
@@ -33,7 +32,8 @@ RSpec.describe ShipmentsController, type: :controller do
       end
 
       it "includes only the id, price, carrier, service name" do
-        expect(@response.map(&:keys).flatten.uniq.sort).to eq keys
+        # binding.pry
+        expect(@response[0][0][0]).to eq "UPS Ground"
       end
     end
   end
