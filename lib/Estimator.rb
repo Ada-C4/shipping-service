@@ -66,7 +66,6 @@ module Estimator
         shipment_array.each do |shipment|
             response = ups.find_rates(shipment[:origin], shipment[:destination], shipment[:package])
             sorted_rates = response.rates.sort_by(&:price)
-            binding.pry
             ups_rates << sorted_rates
         end
       return ups_rates
