@@ -11,10 +11,11 @@ module Estimator
     validates :weight, presence: true
 
 
-    def origin
+    def origins_array
       # Location.new(country: "US", state: "CA", city: "Los Angeles", postal_code: "90001")
       #rough draft- may need helpers for params
       #in wetsy, we will get this from the "merchant"
+      #make an array of origins to iterate through
         Location.new(shipping_params)
     end
 

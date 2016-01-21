@@ -1,12 +1,17 @@
-require './lib/Estimator.rb'
 class EstimatesController < ApplicationController
   include Estimator
 
   def quote
-    QuoteCalulator.query(shipping_params)
+    quote = QuoteCalulator.query(shipping_params)
     #takes shipping params
     #does stuff with estimator wrapper
     #renders json
+    if quote
+      render :json => quote.as_json(except: [:created_at, :updated_at]),
+      :status => :ok
+    else
+      render :json => [], :status => :no_content
+    end
   end
 
 
