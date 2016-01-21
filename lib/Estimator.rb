@@ -1,15 +1,5 @@
 module Estimator
   class Shipments < ActiveRecord::Base
-    validates :name, presence: true
-    validates :country, presence: true
-    validates :city, presence: true
-    validates :state, presence: true
-    validates :postal_code, presence: true
-    validates :length, presence: true
-    validates :width, presence: true
-    validates :height, presence: true
-    validates :weight, presence: true
-
 
     def origins_array
       # Location.new(country: "US", state: "CA", city: "Los Angeles", postal_code: "90001")

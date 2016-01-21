@@ -36,7 +36,6 @@ RSpec.describe EstimatesController, type: :controller do
 
     it "is successful" do
       post :quote, shipping_params, { format: :json }
-      binding.pry
       expect(response.response_code).to eq 200
     end
 
