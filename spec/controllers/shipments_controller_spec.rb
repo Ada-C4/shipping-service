@@ -24,7 +24,3 @@ RSpec.describe ShipmentsController, type: :controller do
   end
 
   end
-
-  curl -H 'Content-Type: application/json' -X POST -d '{"origin": {"country": "US", "state": "CA", "city": "Beverly Hills", "zip": "90210"}, "destination": {"country": "CA", "province": "ON", "city": "Ottawa", "postal_code": "K1P 1J1"}, "package": { "weight":100, "dimensions": [93,10,10]}}' http://localhost:3000/estimate.json
-
-  curl -H 'Content-Type: application/json' -X POST -d '{"package": "TEST"}' http://localhost:3000/estimate

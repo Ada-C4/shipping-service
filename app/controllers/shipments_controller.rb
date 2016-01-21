@@ -11,8 +11,6 @@ respond_to :json
     usps = usps_rates(origin, destination, packages)
     rates = ups + usps
     render :json => rates.as_json, :status => :ok
-    #combine ups and usps into one json object
-    #return that object to seabay
   end
 
 private
