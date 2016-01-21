@@ -1,5 +1,4 @@
 class ShipmentsController < ApplicationController
-include ShipmentsHelper
 respond_to :json
 
   def estimate
@@ -7,7 +6,6 @@ respond_to :json
     packages = [package]
     origin = ActiveShipping::Location.new(params[:origin])
     destination = ActiveShipping::Location.new(params[:destination])
-    binding.pry
 
     ups = ups_rates(origin, destination, packages)
     render :json => ups.as_json, :status => :ok
