@@ -8,9 +8,9 @@ respond_to :json
     destination = ActiveShipping::Location.new(params[:destination])
 
     ups = ups_rates(origin, destination, packages)
-    render :json => ups.as_json, :status => :ok
     usps = usps_rates(origin, destination, packages)
-    render :json => usps.as_json, :status => :ok
+    rates = ups + usps
+    render :json => rates.as_json, :status => :ok
     #combine ups and usps into one json object
     #return that object to seabay
   end
