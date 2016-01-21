@@ -1,6 +1,5 @@
 class ShipmentsController < ApplicationController
   def shipment
-    shipment = Shipment.new
 
     origin = ActiveShipping::Location.new(country: 'US', state: 'CA', city: 'Beverly Hills', zip: '90210')
 
@@ -15,7 +14,7 @@ class ShipmentsController < ApplicationController
       packages << pack
     end
 
-    quotes = shipment.get_quotes(origin, destination, packages)
+    quotes = get_quotes(origin, destination, packages)
     render :json => quotes.as_json
   end
 
