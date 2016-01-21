@@ -10,6 +10,7 @@ RSpec.describe ShipmentsController, type: :controller do
   end
 
   describe "GET 'shipment'", :vcr do
+
     it "is successful" do
       get :shipment, successful_params
       expect(response.response_code).to eq 200
@@ -26,7 +27,7 @@ RSpec.describe ShipmentsController, type: :controller do
         @response = JSON.parse response.body
       end
 
-      it "is an array of estimate objects" do
+      it "is an array of shipping price estimates" do
         expect(@response).to be_an_instance_of Array
         expect(@response.length).to eq 2
       end
@@ -35,5 +36,32 @@ RSpec.describe ShipmentsController, type: :controller do
         expect(@response[0][0][0]).to eq "UPS Ground"
       end
     end
+
+    context "the quote to be returned" do
+      before :each do
+        get :shipment, successful_params
+      end
+
+      let(:origin) { ActiveShipping::Location.new(country: 'US', state: 'CA', city: 'Beverly Hills', zip: '90210') }
+      let(:destination) { ActiveShipping::Location.new(country: 'US', state: 'WA', city: 'Seattle', zip: 98105) }
+      let (:packages) { [ActiveShipping::Package.new(50, [3,4,5]), ActiveShipping::Package.new(5, [3,4,5])] }
+
+      it "is an array" do
+        expect(assigns(:quotes)) .to be_an_instance_of Array
+      end
+
+      it "is an array of 2 items" do
+        expect(assigns(:quotes).length).to eq 2
+      end
+
+      it "each internal array has service name as 1st item within 1st item" do
+        expect(assigns(:quotes)[0][0][0]).to eq "UPS Ground"
+      end
+
+      it "each internal array has integer as 2nd item within 1st item" do
+        expect(assigns(:quotes)[0][0][1]).to eq 2396
+      end
+    end
   end
+
 end

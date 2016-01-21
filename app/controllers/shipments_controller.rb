@@ -14,9 +14,11 @@ class ShipmentsController < ApplicationController
       packages << pack
     end
 
-    quotes = get_quotes(origin, destination, packages)
-    render :json => quotes.as_json
+    @quotes = get_quotes(origin, destination, packages)
+    render :json => @quotes.as_json
   end
+
+  private
 
   def get_quotes(origin, destination, packages)
     quotes = []
