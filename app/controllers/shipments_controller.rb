@@ -2,10 +2,12 @@ class ShipmentsController < ApplicationController
 respond_to :json
 
   def estimate
-    package = ActiveShipping::Package.new(params[:package][:weight], params[:package][:dimensions])
+    weight = (package_params[:weight]).to_i
+    dimensions = [(package_params[:length]).to_i,  (package_params[:width]).to_i,  (package_params[:height]).to_i]
+    package = ActiveShipping::Package.new(weight, dimensions)
     packages = [package]
-    origin = ActiveShipping::Location.new(params[:origin])
-    destination = ActiveShipping::Location.new(params[:destination])
+    origin = ActiveShipping::Location.new(origin_params)
+    destination = ActiveShipping::Location.new(destination_params)
 
     ups = ups_rates(origin, destination, packages)
     usps = usps_rates(origin, destination, packages)
@@ -16,7 +18,7 @@ respond_to :json
 private
 
   def package_params
-    params.require(:package).permit(:weight, :dimensions => [])
+    params.require(:package).permit(:weight, :length, :width, :height)
   end
 
   def origin_params

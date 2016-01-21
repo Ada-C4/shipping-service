@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'pry'
 
 RSpec.describe ShipmentsController, type: :controller do
   describe "POST 'estimate'" do
@@ -12,13 +13,15 @@ RSpec.describe ShipmentsController, type: :controller do
                     province: 'ON',
                     city: 'Ottawa',
                     postal_code: 'K1P 1J1'},
-      package: { weight:100,
-                dimensions: [93,10,10]}
-      }
+      package: { weight: 100,
+                length: 93,
+                width: 10,
+                height: 10}
+              }
     end
 
     it "is successful" do
-      post :estimate
+      post :estimate, params
       expect(response.response_code).to eq 200
     end
   end
