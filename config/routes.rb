@@ -1,3 +1,3 @@
 Rails.application.routes.draw do
-  get 'estimate' => 'shipments#estimate'
+  post 'estimate' => 'shipments#estimate'
 end
