@@ -11,21 +11,6 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160119215841) do
-
-  create_table "shipments", force: :cascade do |t|
-    t.string   "name"
-    t.string   "country"
-    t.string   "city"
-    t.string   "state"
-    t.string   "postal_code"
-    t.float    "length"
-    t.float    "width"
-    t.float    "height"
-    t.float    "weight"
-    t.boolean  "cylinder"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
+ActiveRecord::Schema.define(version: 0) do
 
 end
