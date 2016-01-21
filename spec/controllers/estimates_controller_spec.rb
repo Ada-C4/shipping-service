@@ -43,7 +43,7 @@ RSpec.describe EstimatesController, type: :controller do
     end
 
     it "returns json" do
-      post :quote, shipping_params, { format: :json }
+      post :quote, params, { format: :json }
       expect(response.header['Content-Type']).to include 'application/json'
     end
   end
