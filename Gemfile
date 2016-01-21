@@ -24,6 +24,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'active_shipping'
 
+gem 'dotenv'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -40,7 +42,6 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'simplecov'
   gem 'sqlite3'
-  gem 'dotenv'
 end
 
 group :development do
