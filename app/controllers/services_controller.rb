@@ -14,20 +14,29 @@ class ServicesController < ApplicationController
     when :usps then usps_credentials
     end
 
-    response = service.find_rates(origin, destination, packages)
-    service_rates = response.rates
-      .sort_by(&:price)
-      .collect do |rate|
-        {
-          rate: rate.service_name,
-          price: rate.price,
-          date: rate.delivery_date
-        }
-      end
+    begin
+      response = service.find_rates(origin, destination, packages)
+    rescue
+      return render :json => [], :status => :no_content
+    end
 
-    data_hash = { data: service_rates }
+    if response.respond_to?(:rates)
+      service_rates = response.rates
+        .sort_by(&:price)
+        .collect do |rate|
+          {
+            rate: rate.service_name,
+            price: rate.price,
+            date: rate.delivery_date
+          }
+        end
 
-    render :json => data_hash.as_json, :status => :ok
+      data_hash = { data: service_rates }
+
+      render :json => data_hash.as_json, :status => :ok
+    else
+      render :json => [], :status => :no_content
+    end
   end
 
   private
