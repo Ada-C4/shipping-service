@@ -1,13 +1,16 @@
 module Estimator
-  class Shipments < ActiveRecord::Base
+  class Estimate < ActiveRecord::Base
+    require 'active_shipping'
+    require 'pry'
 
     def self.query(strong_shipping_params)
       #make query in here to get quotes
       quote = {:hi => "how are you"}
+      dest = destination
       return quote
     end
 
-    def origins_array
+    def self.origins_array
       # Location.new(country: "US", state: "CA", city: "Los Angeles", postal_code: "90001")
       #rough draft- may need helpers for params
       #in wetsy, we will get this from the "merchant"
@@ -15,9 +18,10 @@ module Estimator
         Location.new(shipping_params)
     end
 
-    def destination
+    def self.destination
       # Location.new(country: country, state: state, city: city, postal_code: postal_code)
       #in wetsy this will come from the "order"
+      binding.pry
       Location.new(shipping_params[:destination[:country, :state, :city, :zip, :postal_code]])
     end
 
