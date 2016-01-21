@@ -21,7 +21,6 @@ module Estimator
     def self.destination
       # Location.new(country: country, state: state, city: city, postal_code: postal_code)
       #in wetsy this will come from the "order"
-      binding.pry
       Location.new(shipping_params[:destination[:country, :state, :city, :zip, :postal_code]])
     end
 
