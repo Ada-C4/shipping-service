@@ -22,13 +22,14 @@ private
     params.require(:package).permit(:weight, :dimensions => [])
   end
 
-  # def origin_params
-  #   params.require(:package).permit(:weight, :dimensions)
-  # end
-  #
-  # def package_params
-  #   params.require(:package).permit(:weight, :dimensions)
-  # end
+  def origin_params
+    params.require(:origin).permit(:country, :state, :province, :city, :zip, :postal_code)
+  end
+
+  def destination_params
+    params.require(:destination).permit(:country, :state, :province, :city, :zip, :postal_code)
+  end
+
 
   def ups_rates(origin, destination, packages)
     ups = ActiveShipping::UPS.new(login: ENV['UPS_LOGIN'], password: ENV['UPS_PASSWORD'], key: ENV['UPS_KEY'])
