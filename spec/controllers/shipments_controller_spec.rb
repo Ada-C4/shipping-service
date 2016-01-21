@@ -32,7 +32,6 @@ RSpec.describe ShipmentsController, type: :controller do
       end
 
       it "includes only the id, price, carrier, service name" do
-        # binding.pry
         expect(@response[0][0][0]).to eq "UPS Ground"
       end
     end
