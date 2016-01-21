@@ -3,10 +3,10 @@ module Estimator
     require 'active_shipping'
     require 'pry'
 
-    def self.query(strong_shipping_params)
+    def self.query(ship_params)
       #make query in here to get quotes
       quote = {:hi => "how are you"}
-      dest = destination
+      dest = destination(ship_params)
       return quote
     end
 
@@ -18,10 +18,10 @@ module Estimator
         Location.new(shipping_params)
     end
 
-    def self.destination
+    def self.destination(ship_params)
       # Location.new(country: country, state: state, city: city, postal_code: postal_code)
       #in wetsy this will come from the "order"
-      Location.new(shipping_params[:destination[:country, :state, :city, :zip, :postal_code]])
+      ActiveShipping::Location.new(ship_params[:destination])
     end
 
     def packages
