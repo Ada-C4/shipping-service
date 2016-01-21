@@ -30,4 +30,12 @@ class Carrier
     end
     return packages
   end
+
+  def self.activate_ups
+    ActiveShipping::UPS.new(login: ENV["UPS_LOGIN"], password: ENV["UPS_PW"], key: ENV['UPS_ACCESS_KEY'])
+  end
+
+  def self.activate_usps
+    ActiveShipping::USPS.new(login: ENV["USPS_ACCESS_KEY"])
+  end
 end

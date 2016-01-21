@@ -13,13 +13,27 @@ class CarriersController < ApplicationController
     packages = Carrier.create_packages(params[:packages]) # as an array
 
     # set up UPS with credentials
+    ups = Carrier.activate_ups
+
     # get a UPS response
+    response = ups.find_rates(origin, destination, packages)
+
     # sort/collect the response
+    ups_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
+
+    # to do : turn this into JSON
+
 
     # set up USPS with credentials
-    # get a USPS response
-    # sort/collect the response
+    usps = Carrier.activate_usps
 
+    # get a USPS response
+    response = usps.find_rates(origin, destination, packages)
+
+    # sort/collect the response
+    usps_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
+
+    # turn this into JSON
 
   end
 
