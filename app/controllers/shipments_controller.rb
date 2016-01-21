@@ -2,14 +2,16 @@ class ShipmentsController < ApplicationController
   def shipment
     shipment = Shipment.new
 
-    shipment.origin = Location.find_or_create_by(params[:origin])
-    shipment.destination = Location.find_or_create_by(params[:destination])
-    shipment.packages = []
+    origin = shipment.origin(params[:origin])
+    destination = shipment.destination(params[:destination])
+    packages = []
 
-    package_params.each do |package|
+    package_params[:packages].each do |package|
       pack = Package.create(package)
-      @packages << pack
+      packages << pack
     end
+
+    shipment.save
 
     quotes = shipment.get_quotes
     render :json => quotes.as_json
