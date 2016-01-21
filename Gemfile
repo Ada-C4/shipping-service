@@ -37,6 +37,7 @@ group :development, :test do
   gem 'byebug'
   gem 'simplecov', require: false
   gem 'factory_girl_rails', '~> 4.0'
+  gem 'pry'
 end
 
 group :development do
