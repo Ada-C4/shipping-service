@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  get 'ups' => 'ups#index'
+  post 'ups' => 'services#ship', service: :ups
+  post 'usps' => 'services#ship', service: :usps
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
