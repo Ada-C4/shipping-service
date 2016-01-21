@@ -1,14 +1,6 @@
 class Shipment < ActiveRecord::Base
   has_many :packages
   has_many :estimates
-  attr_reader :origin, :destination, :packages
-
-  def initialize(params)
-    @origin = Location.find_or_create_by(params[:origin])
-    @destination = Location.find_or_create_by(params[:destination])
-    @packages = []
-    params[:packages].each { |package| @packages << Package.new(package) }
-  end
 
   def get_quotes
     quotes = []
@@ -20,4 +12,5 @@ class Shipment < ActiveRecord::Base
     quotes << fedex_quote
     return quotes
   end
+
 end
