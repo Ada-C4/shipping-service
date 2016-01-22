@@ -1,6 +1,5 @@
 class EstimatesController < ApplicationController
   require 'active_shipping'
-  require 'estimator'
   include Estimator
 
   def quote
