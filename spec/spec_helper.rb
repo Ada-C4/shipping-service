@@ -1,5 +1,6 @@
 require 'factory_girl'
 require 'simplecov'
+require 'vcr'
 
 SimpleCov.start
 
