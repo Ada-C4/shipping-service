@@ -6,12 +6,7 @@ module Estimator
     def self.query(ship_params)
       #make query in here to get quotes
       quote = ups_dates_and_rates(ship_params)
-      if quote
-        return quote.to_json,
-        :status => :ok
-      else
-        render :json => [], :status => :no_content
-      end
+      return quote
     end
 
     #creates hashes that have each service with their price and estimated shipping date
