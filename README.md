@@ -1,3 +1,10 @@
+This is our shipping API. It's compatible with UPS and USPS shipping services and integrated with the Swagrid checkout system. Destination is set with the building address, but later we would like to refactor for the user to choose the destination address. Currently, package size is set by magic, but in a later refactor we will add dimension and weight attributes to products. 
+
+# Tasks yet to be completed
+- 95% test coverage
+- Error handling
+
+
 # Shipping Service API
 Build a stand-alone shipping service API that calculates estimated shipping cost for an order from another team's bEtsy application.
 
