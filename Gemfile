@@ -43,7 +43,6 @@ group :development, :test do
   gem 'pry-rails'
   gem 'rspec-rails'
   gem 'simplecov', require: false
-  gem 'factory_girl_rails'
   gem 'dotenv-rails'
   gem 'httparty', '~> 0.13.7'
 end
