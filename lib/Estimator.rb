@@ -1,7 +1,6 @@
 module Estimator
   class Estimate < ActiveRecord::Base
     require 'active_shipping'
-    require 'pry'
 
     def self.query(ship_params)
       @api_call_ok = true
