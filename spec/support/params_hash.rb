@@ -15,16 +15,16 @@ RSpec.shared_context "using shipping params" do
                 :postal_code => "01235"},
               :package_items =>
               [{ :weight => 12,
-                :height => 15,
+                :height => 9,
                 :length => 10,
-                :width => 12 },
+                :width => 9 },
                { :weight => 3.453,
-                 :height => 11,
-                 :length => 1,
-                 :width => 14 },
+                 :height => 1,
+                 :length => 10,
+                 :width => 9 },
                { :weight => 30.45,
                  :height => 3,
-                 :length => 40,
+                 :length => 10,
                  :width => 5 }]},
             { :origin =>
               { :country => "US",
@@ -34,17 +34,17 @@ RSpec.shared_context "using shipping params" do
               :package_items =>
                 [{:weight => 9.45,
                 :height => 2,
-                :length => 17,
-                :width => 14 }]},
+                :length => 10,
+                :width => 9 }]},
             { :origin =>
               { :country => "US",
                 :state => "CA",
                 :city => "San Fransisco",
                 :postal_code => "94105"},
               :package_items =>
-                [{:weight => 500,
+                [{:weight => 50,
                 :height => 4,
-                :length => 104,
+                :length => 14,
                 :width => 10 }]},
             { :origin =>
               { :country => "US",
@@ -54,7 +54,7 @@ RSpec.shared_context "using shipping params" do
               :package_items =>
                 [{:weight => 1000,
                 :height => 4,
-                :length => 90,
+                :length => 30,
                 :width => 10 }]},
               { :origin =>
                 { :country => "US",
@@ -64,7 +64,7 @@ RSpec.shared_context "using shipping params" do
                 :package_items =>
                   [{:weight => 80,
                   :height => 4,
-                  :length => 80,
+                  :length => 50,
                   :width => 10 }]}]
           }
         }

@@ -6,13 +6,23 @@ module Estimator
     def self.query(ship_params)
       @api_call_ok = true
       ship_array = shipment_array(ship_params)
-      quote = ups_rates(ship_array)
+      ups_rates = get_rates(ship_array, ups)
+      usps_rates = get_rates(ship_array, usps)
+      quote = assemble_quote(ups_rates, usps_rates)
       if @api_call_ok
         return quote
       else
         return nil
       end
       @api_call_ok = true
+    end
+
+    def self.ups
+      ActiveShipping::UPS.new(login: 'shopifolk', password: 'Shopify_rocks', key: '7CE85DED4C9D07AB')
+    end
+
+    def self.usps
+      ActiveShipping::USPS.new(login: '677JADED7283')
     end
 
     def self.shipment_array(ship_params)
@@ -54,33 +64,27 @@ module Estimator
       ActiveShipping::Location.new(ship_params[:destination])
     end
 
-
-    def self.ups
-      ActiveShipping::UPS.new(login: 'shopifolk', password: 'Shopify_rocks', key: '7CE85DED4C9D07AB')
-    end
-
-    def self.ups_rates(shipment_array)
-      #ups_rates is an array of hashes with different shipping services and their cost.
-      #total_ups_rates creates as array summing the cost of each of the packages for the same service
+    def self.get_rates(shipment_array, carrier)
+      #rates is an array of hashes with different shipping services and their cost.
+      #total_carrier_rates creates as array summing the cost of each of the packages for the same service
       #this is where are are taking all the packages from each different merchant and summing their shipping costs
-      ups_rates = []
+      #error handling takes care of things when the zip code is invalid, etc
+      carrier_rates = []
         shipment_array.each do |shipment|
-
-            response = ups.find_rates(shipment[:origin], shipment[:destination], shipment[:package])
+            response = carrier.find_rates(shipment[:origin], shipment[:destination], shipment[:package])
             sorted_rates = (response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}).to_h
-            ups_rates << sorted_rates
+            carrier_rates << sorted_rates
         end
     rescue ActiveShipping::ResponseError
       @api_call_ok = false
     else
-      total_ups_rates = Hash.new(0)
-      ups_rates.each { |subhash| subhash.each { |service, cost| total_ups_rates[service] += cost } }
-      return total_ups_rates
+      total_carrier_rates = Hash.new(0)
+      carrier_rates.each { |subhash| subhash.each { |service, cost| total_carrier_rates[service] += cost } }
+      return total_carrier_rates
     end
 
-    # def usps_rates
-    #   usps = USPS.new(login: 'your usps account number', password: 'your usps password')
-    #   get_rates_from_shipper(usps)
-    # end
+    def self.assemble_quote(ups, usps)
+      {"UPS" => ups, "USPS" => usps}
+    end
   end
 end
