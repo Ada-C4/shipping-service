@@ -1,22 +1,55 @@
 {
   "RSpec": {
     "coverage": {
-      "/Users/katherinedefliese/Documents/Ada_homework/project-forks/shipping-service/app/helpers/application_helper.rb": [
+      "/Users/jessica/Documents/Ada/project-forks/shipping_service_project/shipping-service/app/helpers/application_helper.rb": [
         1,
         null
       ],
-      "/Users/katherinedefliese/Documents/Ada_homework/project-forks/shipping-service/app/helpers/packages_helper.rb": [
+      "/Users/jessica/Documents/Ada/project-forks/shipping_service_project/shipping-service/app/helpers/packages_helper.rb": [
         1,
         null
       ],
-      "/Users/katherinedefliese/Documents/Ada_homework/project-forks/shipping-service/app/controllers/packages_controller.rb": [
+      "/Users/jessica/Documents/Ada/project-forks/shipping_service_project/shipping-service/app/controllers/packages_controller.rb": [
         1,
         null,
         1,
+        6,
+        1,
+        null,
+        null,
+        5,
+        null,
+        null,
+        5,
+        5,
+        null,
+        1,
+        null,
+        null,
+        4,
+        4,
+        null,
+        1,
+        null,
+        null,
+        3,
+        3,
+        3,
+        36,
+        null,
+        3,
+        3,
+        21,
+        null,
+        3,
+        3,
+        null,
+        0,
+        null,
         null,
         null
       ],
-      "/Users/katherinedefliese/Documents/Ada_homework/project-forks/shipping-service/app/controllers/application_controller.rb": [
+      "/Users/jessica/Documents/Ada/project-forks/shipping_service_project/shipping-service/app/controllers/application_controller.rb": [
         1,
         null,
         null,
@@ -24,6 +57,6 @@
         null
       ]
     },
-    "timestamp": 1453243290
+    "timestamp": 1453502619
   }
 }
