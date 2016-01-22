@@ -8,10 +8,11 @@ class ShipmentsController < ApplicationController
       origin = ActiveShipping::Location.new(country: 'US', state: 'CA', city: 'Beverly Hills', zip: '90210')
 
       destination = ActiveShipping::Location.new(country: params[:destination][:country], state: params[:destination][:state], city: params[:destination][:city], zip: params[:destination][:zip])
+
       packages = []
       if !params[:packages].nil?
         params[:packages].each do |package|
-          weight = package[:weight]
+          weight = package[:weight].to_i
           dimensions = package[:dimensions].split(",").map!{|string| string.to_i}
           pack = ActiveShipping::Package.new(weight, dimensions)
           packages << pack
@@ -44,7 +45,7 @@ class ShipmentsController < ApplicationController
   end
 
   def error_handling(params)
-    location_keys = ["city", "state", "country", "zip"]
+    location_keys = ["country", "city", "state", "zip"]
     package_keys = ["weight", "dimensions"]
     proper_packages = true
     if !params.include?("destination")
@@ -53,9 +54,9 @@ class ShipmentsController < ApplicationController
       render:json => ["You didn't submit an origin."].as_json, :status => :bad_request
     elsif !params.include?("packages")
       render:json => ["You didn't submit your package information."].as_json, :status => :bad_request
-    elsif params["destination"].keys() & location_keys != location_keys
+    elsif (params["destination"].keys & location_keys) != location_keys
       render:json => ["Your destination information is incomplete"].as_json, :status => :bad_request
-    elsif params["origin"].keys() & location_keys != location_keys
+    elsif (params["origin"].keys & location_keys) != location_keys
         render:json => ["Your origin information is incomplete"].as_json, :status => :bad_request
     elsif
       params["packages"].each do |package| 

@@ -63,10 +63,6 @@ RSpec.describe ShipmentsController, type: :controller do
         get :shipment, successful_params
       end
 
-      let(:origin) { ActiveShipping::Location.new(country: 'US', state: 'CA', city: 'Beverly Hills', zip: '90210') }
-      let(:destination) { ActiveShipping::Location.new(country: 'US', state: 'WA', city: 'Seattle', zip: 98105) }
-      let (:packages) { [ActiveShipping::Package.new(50, [3,4,5]), ActiveShipping::Package.new(5, [3,4,5])] }
-
       it "is an array" do
         expect(assigns(:quotes)) .to be_an_instance_of Array
       end
