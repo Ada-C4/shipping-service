@@ -1,11 +1,10 @@
 class EstimatesController < ApplicationController
   require "/lib/estimator.rb"
-  include Estimator
   require 'active_shipping'
 
   def quote
     ship_params = strong_shipping_params
-    estimate = Estimate.query(ship_params)
+    estimate = Estimator::Estimate.query(ship_params)
     if estimate
       render :json => estimate.to_json, :status => :ok
     else
