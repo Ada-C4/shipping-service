@@ -161,24 +161,21 @@ end
 
     end
 
-    # context "no rates found" do
-    #   before :each do
-    #     get :rates, false_params
-    #     @response = JSON.parse response.body
-    #   end
-    #
-    #   it "is successful if no rates are found" do
-    #     expect(response).to be_successful
-    #   end
-    #
-    #   it "returns a 204 (no content)" do
-    #     expect(response.response_code).to eq 204
-    #   end
-    #
-    #   it "expects the response body to be an empty array" do
-    #     expect(response.body).to eq "[]"
-    #   end
-    # end
+    context "no rates found" do
+
+      #
+      # it "is successful if no rates are found" do
+      #   expect(response).to be_successful
+      # end
+      #
+      # it "returns a 204 (no content)" do
+      #   expect(response.response_code).to eq 204
+      # end
+      #
+      # it "expects the response body to be an empty array" do
+      #   expect(response.body).to eq "[]"
+      # end
+    end
 
   end
 end
