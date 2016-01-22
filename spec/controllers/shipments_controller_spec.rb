@@ -5,19 +5,19 @@ RSpec.describe ShipmentsController, type: :controller do
   let(:successful_params) do
     { origin: { country: "US", city: "Seattle", state: "WA", zip: 98105 },
     destination: { country: "US", city: "Seattle", state: "WA", zip: 98105 },
-    packages: [{ weight: 400, dimensions: [4, 5, 6] },
-      { weight: 100, dimensions: [6, 6, 8] }]
+    packages: [[ 400, "4, 5, 6"],
+      [100, "6, 6, 8"]]
     }
   end
   let (:no_origin_params) do
     { destination: { country: "US", city: "Seattle", state: "WA", zip: 98105 },
-    packages: [{ weight: 400, dimensions: [4, 5, 6] },
-      { weight: 100, dimensions: [6, 6, 8] }] }
+    packages: [[ 400, "4, 5, 6"],
+      [100, "6, 6, 8"]] }
   end
   let(:no_destination_params) do
     { origin: { country: "US", city: "Seattle", state: "WA", zip: 98105 },
-    packages: [{ weight: 400, dimensions: [4, 5, 6] },
-      { weight: 100, dimensions: [6, 6, 8] }]
+    packages: [[ 400, "4, 5, 6"],
+      [100, "6, 6, 8"]]
     }
   end
   let(:no_packages_params) do
