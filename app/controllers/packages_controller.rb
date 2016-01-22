@@ -9,29 +9,29 @@ class PackagesController < ApplicationController
     destination = get_destination(params)
 
      ups = ActiveShipping::UPS.new(login: ENV["UPS_LOGIN"], password: ENV["UPS_PASSWORD"], key: ENV["UPS_KEY"])
-    #  usps = ActiveShipping::USPS.new(login: ENV["USPS_LOGIN"])
+     usps = ActiveShipping::USPS.new(login: ENV["USPS_LOGIN"])
 
     ups_response = ups.find_rates(origin, destination, package)
     ups_rates = ups_response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price, rate.delivery_date]}
 
-    # usps_response = usps.find_rates(origin, destination, packages)
-    # usps_rates = usps_response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price, rate.delivery_date]}
-    #
-    # all_rates = { ups: ups_rates, usps: usps_rates }
-    render :json => ups_rates.as_json, :status => :partial_content
+    usps_response = usps.find_rates(origin, destination, package)
+    usps_rates = usps_response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price, rate.delivery_date]}
+
+    all_rates = { ups: ups_rates, usps: usps_rates }
+
 
     # begin
     #   Timeout::timeout(10) do
-    #     if ups_rates && usps_rates
-    #       render :json => all_rates.as_json, :status => :ok
-    #     elsif ups_rates
-    #       render :json => ups_rates.as_json, :status => :partial_content
-    #     elsif usps_rates
-    #       render :json => usps_rates.as_json, :status => :partial_content
-    #     else
-    #       render json: { error: :missing_destination_state, message: "You must provide a valid State for the shipping destination." }, status: :bad_request
-    #     end
-    #   end
+        if ups_rates && usps_rates
+          render :json => all_rates.as_json, :status => :ok
+        elsif ups_rates
+          render :json => ups_rates.as_json, :status => :partial_content
+        elsif usps_rates
+          render :json => usps_rates.as_json, :status => :partial_content
+        else
+          render json: { error: :missing_destination_state, message: "You must provide a valid State for the shipping destination." }, status: :bad_request
+        end
+      # end
     # rescue Timeout::Error
     #   render :json => [], :status => :gateway_timeout
     # end
