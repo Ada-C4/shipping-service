@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  post '/quote' => 'estimates#quote'
+  get '/quote' => 'estimates#quote'
 
   # Example resource route with options:
   #   resources :products do

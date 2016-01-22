@@ -8,19 +8,23 @@ RSpec.describe EstimatesController, type: :controller do
 
     context "successful api call" do
       it "is successful" do
-        post :quote, params, { format: :json }
+        get :quote, params, { format: :json }
         expect(response.response_code).to eq 200
       end
 
       it "returns json" do
-        post :quote, params, { format: :json }
+        get :quote, params, { format: :json }
         expect(response.header['Content-Type']).to include 'application/json'
+      end
+
+      it "returned json that is formatted properly" do
+        get :quote, params, { format: :json }
       end
     end
 
     context "failed api call" do
       it "returns a 204 (no content)" do
-        post :quote, bad_params, { format: :json }
+        get :quote, bad_params, { format: :json }
         expect(response.response_code).to eq 204
       end
     end
