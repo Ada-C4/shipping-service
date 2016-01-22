@@ -1,5 +1,6 @@
 require 'rails_helper'
 require 'pry'
+require 'curl'
 require 'support/params_hash.rb'
 
 RSpec.describe EstimatesController, type: :controller do
