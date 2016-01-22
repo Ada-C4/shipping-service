@@ -12,24 +12,24 @@ class CarriersController < ApplicationController
 
     # set up UPS with credentials, get response and sort
     ups = Carrier.activate_ups
-    @ups_response = ups.find_rates(origin, destination, packages)
-    ups_rates = @ups_response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price, rate.delivery_date]} # could add other fields
+    ups_response = ups.find_rates(origin, destination, packages)
+    @ups_rates = ups_response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price, rate.delivery_date]} # could add other fields
 
     # set up USPS with credentials, get response and sort
     usps = Carrier.activate_usps
-    @usps_response = usps.find_rates(origin, destination, packages)
-    usps_rates = @usps_response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price, rate.delivery_date]}
+    usps_response = usps.find_rates(origin, destination, packages)
+    @usps_rates = usps_response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price, rate.delivery_date]}
 
     # examine the rates for errors and turn this into JSON
     # as long as it takes less than 5 seconds
     begin
       Timeout::timeout(5) do
-        if ups_rates && usps_rates
-          all_rates = ups_rates.concat(usps_rates)
+        if @ups_rates && @usps_rates
+          all_rates = @ups_rates.concat(@usps_rates)
           render :json => all_rates.as_json, :status => :ok
-        elsif ups_rates
+        elsif @ups_rates
           render :json => ups_rates.as_json, :status => :partial_content
-        elsif usps_rates
+        elsif @usps_rates
           render :json => usps_rates.as_json, :status => :partial_content
         else
           render :json => [], :status => :no_content

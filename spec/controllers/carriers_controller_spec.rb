@@ -9,7 +9,12 @@ RSpec.describe CarriersController, type: :controller do
 
       it "generates UPS rates", :vcr do
         get :index, query
-        # expect(assigns(:ups_response)).to be_an(Array)
+        expect(assigns(:ups_rates)).to be_an(Array)
+      end
+
+      it "generates USPS rates", :vcr do
+        get :index, query
+        expect(assigns(:usps_rates)).to be_an(Array)
       end
     end
   end
