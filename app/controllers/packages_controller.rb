@@ -45,16 +45,16 @@ class PackagesController < ApplicationController
   end
 
   def create_destination(params)
-    @destination = ActiveShipping::Location.new(country: params[:destination_address][:country],
-                                            state: params[:destination_address][:state],
-                                            city: params[:destination_address][:city],
-                                            zip: params[:destination_address][:zip])
+    @destination = ActiveShipping::Location.new(country: params[:destination][:country],
+                                            state: params[:destination][:state],
+                                            city: params[:destination][:city],
+                                            zip: params[:destination][:zip])
   end
 
   def create_origin(params)
-    @origin = ActiveShipping::Location.new(country: params[:origin_address][:country],
-                                            state: params[:origin_address][:state],
-                                            city: params[:origin_address][:city],
-                                            zip: params[:origin_address][:zip])
+    @origin = ActiveShipping::Location.new(country: params[:origin][:country],
+                                            state: params[:origin][:state],
+                                            city: params[:origin][:city],
+                                            zip: params[:origin][:zip])
   end
 end
