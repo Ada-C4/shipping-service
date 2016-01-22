@@ -8,16 +8,16 @@ RSpec.describe PackagesController, type: :controller do
                     zip: 98122)
                   }
 
-  let(:package) { ActiveShipping::Package.new(100,
-                              [100,100],
-                              valule: 10000)
+  let(:package) { ActiveShipping::Package.new(30,
+                              [30,30],
+                              valule: 100)
                 }
 
-  let(:destination)   { ActiveShipping::Location.new(
+  let(:destination)  { ActiveShipping::Location.new(
                         country: 'US',
-                        state: 'GA',
-                        city: 'Atlanta',
-                        zip: 30307)
+                        state: 'WA',
+                        city: 'Seattle',
+                        zip: 98122)
                       }
 
   let(:ups) { ActiveShipping::UPS.new(login: ENV["UPS_LOGIN"], password: ENV["UPS_PASSWORD"], key: ENV["UPS_KEY"])
@@ -26,35 +26,53 @@ RSpec.describe PackagesController, type: :controller do
   let(:usps) { ActiveShipping::USPS.new(login: ENV["USPS_LOGIN"])
               }
 
-  describe "GET 'index'" do
+  describe "GET 'rates'" do
     it "is successful" do
-      get :index, origin, package, destination, ups, usps
+      get :rates, origin, package, destination, ups, usps
       expect(response.response_code).to eq 200
     end
 
     it "returns json" do
-      get :index, origin, package, destination, ups, usps
+      get :rates, origin, package, destination, ups, usps
       expect(response.header['Content-Type']).to include 'application/json'
     end
 
-  #   context "the returned json object" do
-  #     before :each do
-  #       rosa
-  #       raquel
-  #       get :index
-  #       @response = JSON.parse response.body
-  #     end
-  #
-  #     it "is an array of pet objects" do
-  #       expect(@response).to be_an_instance_of Array
-  #       expect(@response.length).to eq 2
-  #     end
-  #
-  #     it "includes only the id, name, human, and age keys" do
-  # # a way to specify that you want to map on a certian field. Put a binding.pry to find out more.
-  #       expect(@response.map(&:keys).flatten.uniq.sort).to eq keys
-  #     end
-  #   end
+    context "the returned json object" do
+      before :each do
+        origin
+        package
+        destination#.to_query
+        get :rates
+        @response = JSON.parse response.body
+      end
+
+      it "is an array of shipping objects" do
+        expect(@response).to be_an_instance_of Array
+        expect(@response.length).to eq 2
+      end
+
+      it "includes only the id, name, human, and age keys" do
+  # a way to specify that you want to map on a certian field. Put a binding.pry to find out more.
+        expect(@response.map(&:keys).flatten.uniq.sort).to eq keys
+      end
+    end
+
+    context "ups response" do
+      it "returns an array of prices" do
+        ups
+        get :rates
+        expect(ups_rates).to be_an_instance_of Array
+      end
+    end
+
+    context "usps resoponse" do
+      it "returns an array of prices" do
+        usps
+        get :rates
+        expect(usps_rates).to be_an_instance_of Array
+      end
+    end
+
   end
 
     describe "#get_package" do
