@@ -9,10 +9,10 @@ respond_to :json
       packages = [package]
       origin = ActiveShipping::Location.new(origin_params)
       destination = ActiveShipping::Location.new(destination_params)
-
+      
       ups = ups_rates(origin, destination, packages)
       usps = usps_rates(origin, destination, packages)
-      rates = ups + usps
+      rates = ups.merge(usps)
       render :json => rates.as_json, :status => :ok
     rescue
       render :json => { error: :bad_data, message: "You must provide valid data for package size, package weight, origin location and destination location." }, status: :bad_request
@@ -38,14 +38,22 @@ private
     ups = ActiveShipping::UPS.new(login: ENV['UPS_LOGIN'], password: ENV['UPS_PASSWORD'], key: ENV['UPS_KEY'])
     response = ups.find_rates(origin, destination, packages)
 
-    ups_rate_response = response.rates.sort_by(&:price).collect {|rate| [rate.service_name => { price: rate.price, delivery: rate.delivery_range }] }
+    ups_rate_response = {}
+    response.rates.sort_by(&:price).each do |rate|
+      ups_rate_response[rate.service_name] = rate.price
+    end
+    return ups_rate_response
   end
 
   def usps_rates(origin, destination, packages)
     usps = ActiveShipping::USPS.new(login: ENV['USPS_USERNAME'])
     response = usps.find_rates(origin, destination, packages)
 
-    usps_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name => { price: rate.price, delivery: rate.delivery_date }] }
+    usps_rate_response = {}
+    response.rates.sort_by(&:price).each do |rate|
+      usps_rate_response[rate.service_name] = rate.price
+    end
+    return usps_rate_response
   end
 
 end
