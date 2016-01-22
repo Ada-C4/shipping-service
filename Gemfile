@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-
+gem 'active_shipping'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5'
 # Use SCSS for stylesheets
@@ -34,6 +34,10 @@ gem 'httparty'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'rspec-rails'
+  gem 'simplecov', require: false
+  gem 'dotenv-rails'
+  gem 'factory_girl_rails', '~> 4.0'
 end
 
 group :development do
@@ -50,9 +54,6 @@ group :development do
 end
 
 group :test do
-  gem 'rspec-rails'
-  gem 'factory_girl_rails', '~> 4.0'
-  gem 'simplecov', require: false
 end
 
 group :production do
