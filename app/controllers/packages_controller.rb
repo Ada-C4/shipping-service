@@ -17,7 +17,7 @@ class PackagesController < ApplicationController
       ups = ActiveShipping::UPS.new(login: ENV["UPS_ACCOUNT_NAME"], password: ENV["UPS_ACCOUNT_PASSWORD"], key: ENV["UPS_ACCESS_KEY"])
       response = ups.find_rates(origin, destination, package)
       ups_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
-
+      #
       fedex = ActiveShipping::FedEx.new(:test => true, login: ENV["FEDEX_LOGIN"], password: ENV["FEDEX_PASSWORD"], key: ENV["FEDEX_KEY"], account: ENV["FEDEX_ACCOUNT"])
       response = fedex.find_rates(origin, destination, package)
       fedex_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
