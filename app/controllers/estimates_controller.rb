@@ -67,5 +67,4 @@ private
     return Hash.new
   end
 
-
 end
