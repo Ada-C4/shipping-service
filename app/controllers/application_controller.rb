@@ -13,11 +13,9 @@ class ApplicationController < ActionController::Base
                                            city: 'Beverly Hills',
                                            zip: '90210')
     destination = ActiveShipping::Location.new(params["destination"])
-
     packages = ActiveShipping::Package.new(100, [93,10], cylinder: true)
-    binding.pry
     ups_get_rates(origin, destination, packages)
-    usps_get_rates(orgin, destination, packages)
+    usps_get_rates(origin, destination, packages)
 
     #TODO: separate out carriers
     # if shipper == "ups"
