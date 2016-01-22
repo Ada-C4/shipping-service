@@ -22,6 +22,7 @@ RSpec.describe EstimatesController, type: :controller do
         parsed_body = JSON.parse(response.body)
         expect(parsed_body["UPS"]).to_not be_nil
         expect(parsed_body["UPS"]["UPS Ground"]).to_not be_nil
+        expect(parsed_body["USPS"]).to_not be_nil
       end
     end
 
