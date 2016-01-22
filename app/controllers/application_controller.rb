@@ -6,8 +6,6 @@ class ApplicationController < ActionController::Base
 
 
   #query ups for prices
-  # curl -H "Content-Type: application/json" -X POST --data '{"origin" : { "city" : "Seattle", "state" : "WA", "zip" : "98133" }, "packages" : { }}' http://localhost:3000/rates
-
   def get_rates
     origin = ActiveShipping::Location.new(country: 'US',
                                            state: 'CA',
@@ -19,9 +17,6 @@ class ApplicationController < ActionController::Base
     usps_rates = usps_get_rates(origin, destination, packages)
     rates = { ups: ups_rates, usps: usps_rates }
     render :json => rates.as_json, :status => :ok
-  end
-
-  def prepare_origin
   end
 
   def ups_get_rates(origin, destination, packages)
