@@ -8,6 +8,7 @@ module Estimator
       quote = {:hi => "how are you"}
       shipment_array = shipment_array(ship_params)
       ups_rates(shipment_array)
+      ups_shipping_estimate(shipment_array)
 
       return quote
     end
@@ -21,7 +22,7 @@ module Estimator
         package_info = pack_items(package)
         active_origin = ActiveShipping::Location.new(package[:origin])
         active_destination = destination(ship_params)
-        active_package = ActiveShipping::Package.new(package_info[:weight], package_info[:dimensions], :units => :imperial)
+        active_package = ActiveShipping::Package.new(package_info[:weight], package_info[:dimensions], :units => :imperial, :value => 10)
 
         package_hash = {origin: active_origin,
                         destination: active_destination,
@@ -52,14 +53,6 @@ module Estimator
     end
 
 
-    #takes array of shipments and gets estimates from a given shipper
-    # def get_rates_from_shipper(shipper, shipment_array)
-    #   shipment_array.each do |shipment|
-    #     response = shipper.find_rates(shipment)
-    #     response.rates.sort_by(&:price)
-    #   end
-    # end
-
     def self.ups
       ActiveShipping::UPS.new(login: 'shopifolk', password: 'Shopify_rocks', key: '7CE85DED4C9D07AB')
     end
@@ -80,6 +73,14 @@ module Estimator
       return total_ups_rates
     end
 
+    #takes shipments and estimates delivery dates. End up returning the least optimistic set of dates to the user. So they might be ordering from many merchants, and they see the date for the item that will arrive the slowest
+    def self.ups_shipping_estimate(shipment_array)
+      ups_date_estimates = []
+      shipment_array.each do |shipment|
+        dates = ups.get_delivery_date_estimates(shipment[:origin], shipment[:destination], shipment[:package], pickup_date = Date.current, options = {})
+        ups_date_estimates << dates
+      end
+    end
 
     def usps_rates
       usps = USPS.new(login: 'your usps account number', password: 'your usps password')
