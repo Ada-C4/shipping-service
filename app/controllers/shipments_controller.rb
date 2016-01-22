@@ -60,7 +60,7 @@ class ShipmentsController < ApplicationController
     elsif (params["origin"].keys & location_keys) != location_keys
         render:json => ["Your origin information is incomplete"].as_json, :status => :bad_request
     elsif
-      params["packages"].each do |package| 
+      params["packages"].each do |package|
         proper_packages = false if package.keys & package_keys !=  package_keys
       render:json => ["Your package information is incomplete"].as_json, :status => :bad_request if !proper_packages
       end
