@@ -1,11 +1,12 @@
 class ShipmentsController < ApplicationController
 
   def shipment
-    errors = error_handling(params)
-    if errors
-      return errors
+    submission_errors = submission_error_handling(params)
+
+    if submission_errors
+      return submission_errors
     else
-      origin = ActiveShipping::Location.new(country: 'US', state: 'CA', city: 'Beverly Hills', zip: '90210')
+      origin = ActiveShipping::Location.new(country: params[:origin][:country], state: params[:origin][:state], city: params[:origin][:city], zip: params[:origin][:zip])
 
       destination = ActiveShipping::Location.new(country: params[:destination][:country], state: params[:destination][:state], city: params[:destination][:city], zip: params[:destination][:zip])
 
@@ -31,20 +32,20 @@ class ShipmentsController < ApplicationController
     quotes = []
 
     ups = ActiveShipping::UPS.new(login: ENV["UPS_LOGIN"], password: ENV["UPS_PASSWORD"], key: ENV["UPS_KEY"])
-    response = ups.find_rates(origin, destination, packages)
-    ups_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
+    ups_response = ups.find_rates(origin, destination, packages)
 
     usps = ActiveShipping::USPS.new(login: ENV["ACTIVESHIPPING_USPS_LOGIN"])
+    usps_response = usps.find_rates(origin, destination, packages)
 
-    response = usps.find_rates(origin, destination, packages)
-    usps_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price ]}
 
+    ups_rates = ups_response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
+    usps_rates = usps_response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price ]}
     quotes << ups_rates
     quotes << usps_rates
     return quotes
   end
 
-  def error_handling(params)
+  def submission_error_handling(params)
     location_keys = ["country", "city", "state", "zip"]
     package_keys = ["weight", "dimensions"]
     proper_packages = true
