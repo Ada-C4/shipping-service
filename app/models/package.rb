@@ -4,7 +4,7 @@ class Package < ActiveRecord::Base
     package = [
       ActiveShipping::Package.new(100,
                                   [100,100],
-                                  valule: 10000)
+                                  value: 10000)
               ]
 
     return package

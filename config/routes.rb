@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'packages' => 'packages#receive_info'
+  get 'rates' => 'packages#rates'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
