@@ -6,8 +6,8 @@ To interact with the API, please make a post request with JSON in the following 
   ```ruby
   { packages: [{ dimensions: [25, 10, 15], weight: 500 }, { dimensions: [18, 30, 10], weight: 5000 }], origin: { state: "WA", city: "Seattle", zip: "98101" }, destination: { state: "IL", city: "Vernon Hills", zip: "60061" } }.to_json```
 
-Example HTTParty requests to our service!
+# Example HTTParty requests to our service!
 
-  ```ruby
+
   HTTParty.post("http://shipple.herokuapp.com/ups/", headers: { 'Content-Type' => 'application/json' }, body: params)
-  HTTParty.post("http://shipple.herokuapp.com/usps/", headers: { 'Content-Type' => 'application/json' }, body: params)```
+  HTTParty.post("http://shipple.herokuapp.com/usps/", headers: { 'Content-Type' => 'application/json' }, body: params)
