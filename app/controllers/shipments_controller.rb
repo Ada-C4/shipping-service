@@ -1,7 +1,9 @@
 class ShipmentsController < ApplicationController
 
   def shipment
-    if error_handling(params)
+    errors = error_handling(params)
+    if errors
+      return errors
     else
       origin = ActiveShipping::Location.new(country: 'US', state: 'CA', city: 'Beverly Hills', zip: '90210')
 
