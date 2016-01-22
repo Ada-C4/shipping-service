@@ -1,3 +1,12 @@
+# Shipping API by Tammy and Becca
+We used the Active Shipping gem to connect our app with mail carriers. We chose UPS and USPS. Right now, users of the bEtsy app can see shipping options (rates and estimated shipping if available). Currently working on localhost (not not on heroku). localhost:3000/rates?{destination_address_hash} will return JSON with all of the info. Shipping API app: https://quartzy-shipping.herokuapp.com/
+Our version of bEtsy: https://shipping-quartzy.herokuapp.com/
+Trello Board: https://trello.com/b/9DpQ4ypX/shipping-service-api
+See Trello Board for bugs and future features. Submit a issue if you're interested in helping out!
+_Thank you for reading our code and for the helpful comments!_
+
+
+
 # Shipping Service API
 Build a stand-alone shipping service API that calculates estimated shipping cost for an order from another team's bEtsy application.
 
