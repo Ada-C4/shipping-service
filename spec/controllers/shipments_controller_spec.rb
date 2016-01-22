@@ -82,7 +82,7 @@ RSpec.describe ShipmentsController, type: :controller do
       end
 
       it "each internal array has integer as 2nd item within 1st item" do
-        expect(assigns(:quotes)[0][0][1]).to eq 2396
+        expect(assigns(:quotes)[0][0][1]).to eq 1198
       end
     end
   end

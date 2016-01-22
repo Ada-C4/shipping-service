@@ -14,10 +14,9 @@ class ShipmentsController < ApplicationController
 
           pack = ActiveShipping::Package.new(weight, dimensions)
           packages << pack
-
+        end
           @quotes = get_quotes(origin, destination, packages)
           render :json => @quotes.as_json
-        end
       else
         render:json => ["Packages is empty"].as_json, :status => :bad_request
       end
@@ -34,6 +33,7 @@ class ShipmentsController < ApplicationController
     ups_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
 
     usps = ActiveShipping::USPS.new(login: ENV["ACTIVESHIPPING_USPS_LOGIN"])
+
     response = usps.find_rates(origin, destination, packages)
     usps_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price ]}
 
