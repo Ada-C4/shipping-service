@@ -1,4 +1,5 @@
 require 'active_shipping'
+require './lib/ups_services'
 
 class EstimatesController < ApplicationController
   # create constants for origin object, package grams_or_ounces and package dimensions, and country
@@ -21,7 +22,7 @@ class EstimatesController < ApplicationController
     # destination address info comes from query params provided from betsy app's API call
     destination = ActiveShipping::Location.new(country: COUNTRY, state: params[:destination][:state], city: params[:destination][:city], zip: params[:destination][:zip])
     # method call
-    ups_estimates = get_ups_estimates(ORIGIN, destination, package)
+    ups_estimates = UpsServices.transform_codes_into_names(get_ups_estimates(ORIGIN, destination, package))
     # method call
     usps_estimates = get_usps_estimates(ORIGIN, destination, package)
     # response includes rates and dates from both UPS and USPS

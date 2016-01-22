@@ -1,5 +1,5 @@
 require 'rails_helper'
-require 'vcr'
+require 'support/vcr_setup'
 
 RSpec.describe EstimatesController, type: :controller do
   let!(:value) do
@@ -19,7 +19,7 @@ RSpec.describe EstimatesController, type: :controller do
 
   describe "GET 'estimate'" do
     before :each do
-      
+
     end
     it "is successful" do
       get :estimate
