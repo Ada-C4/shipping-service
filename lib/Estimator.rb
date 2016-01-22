@@ -78,13 +78,11 @@ module Estimator
       ups_date_estimates = []
       shipment_array.each do |shipment|
         response = ups.get_delivery_date_estimates(shipment[:origin], shipment[:destination], shipment[:package], pickup_date = Date.current, options = {})
-        binding.pry
         sorted_dates = (response.delivery_estimates.sort_by(&:date).collect {|est| [est.service_name, est.date]}).to_h
         ups_date_estimates << sorted_dates
       end
       #take date estimates and for each service, find the least optimistic date
       ups_date_estimates
-      binding.pry
     end
 
 
