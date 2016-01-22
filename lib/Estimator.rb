@@ -5,36 +5,14 @@ module Estimator
 
     def self.query(ship_params)
       @api_call_ok = true
-      quote = ups_dates_and_rates(ship_params)
+      ship_array = shipment_array(ship_params)
+      quote = ups_rates(ship_array)
       if @api_call_ok
         return quote
       else
         return nil
       end
       @api_call_ok = true
-    end
-
-    #creates hashes that have each service with their price and estimated shipping date
-    def self.ups_dates_and_rates(ship_params)
-        ups_dates_and_rates = {}
-        ship_array = shipment_array(ship_params)
-        rates = ups_rates(ship_array)
-        dates = ups_date_estimates(ship_array)
-        if @api_call_ok
-          #this is ugly because the gem gave me back slightly different names for the services. icky.
-          dates_and_rates = {"UPS" =>
-            {"UPS Ground" => {"rate" => rates["UPS Ground"], "date" => dates["UPS Ground"]},
-             "UPS Three Day Select" => {"rate" => rates["UPS Three-Day Select"], "date" => dates["UPS 3 Day Select"]},
-             "UPS Second Day Air" => {"rate" => rates["UPS Second Day Air"], "date" =>
-              dates["UPS 2nd Day Air"]},
-              "UPS Next Day Air Saver" => {"rate" => rates["UPS Next Day Air Saver"], "date" =>
-              dates["UPS Next Day Air Saver"]},
-             "UPS Next Day Air" => {"rate" => rates["UPS Next Day Air"], "date" =>
-              dates["UPS Next Day Air"]},
-             "UPS Next Day Air Early" => {"rate" => rates["UPS Next Day Air Early A.M."], "date" =>
-              dates["UPS Next Day Air Early"]}}}
-          return dates_and_rates
-      end
     end
 
     def self.shipment_array(ship_params)
@@ -98,20 +76,6 @@ module Estimator
       total_ups_rates = Hash.new(0)
       ups_rates.each { |subhash| subhash.each { |service, cost| total_ups_rates[service] += cost } }
       return total_ups_rates
-    end
-
-    #takes shipments and estimates delivery dates. End up returning the least optimistic set of dates to the user. So they might be ordering from many merchants, and they see the date for the item that will arrive the slowest
-    def self.ups_date_estimates(shipment_array)
-      ups_date_estimates = []
-      shipment_array.each do |shipment|
-        response = ups.get_delivery_date_estimates(shipment[:origin], shipment[:destination], shipment[:package], pickup_date = Date.current, options = {})
-        sorted_dates = (response.delivery_estimates.sort_by(&:date).collect {|est| [est.service_name, est.date]}).to_h
-        ups_date_estimates << sorted_dates
-      end
-      #take date estimates and for each service, find the least optimistic date
-      #I think it does work to find just one package to find the latest shipping time.
-      latest_dates = ups_date_estimates.max_by{|est| est[:date]}
-      return latest_dates
     end
 
     # def usps_rates
