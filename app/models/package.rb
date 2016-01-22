@@ -18,4 +18,13 @@ class Package < ActiveRecord::Base
     return origin
   end
 
+  def get_destination(hash)
+    destination = ActiveShipping::UPS.new(
+          country: 'US',
+          state: hash[:state],
+          city: hash[:city],
+          zip: hash[:zip])
+
+    return destination
+  end
 end
