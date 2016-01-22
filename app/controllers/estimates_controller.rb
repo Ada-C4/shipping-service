@@ -22,9 +22,17 @@ class EstimatesController < ApplicationController
     # destination address info comes from query params provided from betsy app's API call
     destination = ActiveShipping::Location.new(country: COUNTRY, state: params[:destination][:state], city: params[:destination][:city], zip: params[:destination][:zip])
     # method call
-    ups_estimates = UpsServices.transform_codes_into_names(get_ups_estimates(ORIGIN, destination, package))
+    begin
+      ups_estimates = UpsServices.transform_codes_into_names(get_ups_estimates(ORIGIN, destination, package))
+    rescue
+      return render :json => [], :status => :bad_request
+    end
     # method call
-    usps_estimates = get_usps_estimates(ORIGIN, destination, package)
+    begin
+      usps_estimates = get_usps_estimates(ORIGIN, destination, package)
+    rescue
+      return render :json => [], :status => :bad_request
+    end
     # response includes rates and dates from both UPS and USPS
     response = {"UPS Service Options" => ups_estimates, "USPS Service Options" => usps_estimates }
     render :json => response.as_json, :status => :ok
