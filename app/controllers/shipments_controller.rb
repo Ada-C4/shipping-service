@@ -2,17 +2,21 @@ class ShipmentsController < ApplicationController
 respond_to :json
 
   def estimate
-    weight = (package_params[:weight]).to_i
-    dimensions = [(package_params[:length]).to_i,  (package_params[:width]).to_i,  (package_params[:height]).to_i]
-    package = ActiveShipping::Package.new(weight, dimensions)
-    packages = [package]
-    origin = ActiveShipping::Location.new(origin_params)
-    destination = ActiveShipping::Location.new(destination_params)
+    begin
+      weight = (package_params[:weight]).to_i
+      dimensions = [(package_params[:length]).to_i,  (package_params[:width]).to_i,  (package_params[:height]).to_i]
+      package = ActiveShipping::Package.new(weight, dimensions)
+      packages = [package]
+      origin = ActiveShipping::Location.new(origin_params)
+      destination = ActiveShipping::Location.new(destination_params)
 
-    ups = ups_rates(origin, destination, packages)
-    usps = usps_rates(origin, destination, packages)
-    rates = ups + usps
-    render :json => rates.as_json, :status => :ok
+      ups = ups_rates(origin, destination, packages)
+      usps = usps_rates(origin, destination, packages)
+      rates = ups + usps
+      render :json => rates.as_json, :status => :ok
+    rescue
+      render :json => { error: :bad_data, message: "You must provide valid data for package size, package weight, origin location and destination location." }, status: :bad_request
+    end
   end
 
 private
