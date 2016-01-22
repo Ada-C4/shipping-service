@@ -1,4 +1,5 @@
 class EstimatesController < ApplicationController
+  require './lib/estimator.rb'
   include Estimator
   require 'active_shipping'
   require 'pry'
