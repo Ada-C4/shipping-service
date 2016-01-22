@@ -1,4 +1,27 @@
-# Shipping Service API
+# Shipping Service API by Desiree and Audrey  
+
+see progress here:  
+https://trello.com/b/TXJ6uwTM/shippingservice  
+
+This API was designed for somewhat general use, but our assigned marketplace was Wetsy. (http://wetsy.herokuapp.com/)   
+The fork of the wetsy repo we worked on is here:   https://github.com/mangolatte/betsy/tree/alddfp/master`  
+
+Our project was a little cut short by the shortened week, so we did not accomplish all we had wanted to.   
+
+#Accomplished:#  
+-98.4% test coverage    
+-On localhost with two ports, able to test using API with wetsy, get shipping estimates, and add shipping cost to the order total.  
+-In an order from wetsy, items from different merchants are packaged together using a packing method in this api. That way, when you order multiple items from the same merchant they are packaged together, and these packages are sent from various origins to one destination.  
+-Some error handling for when Active shipping would not return shipping info (because of problems with the zip codes, etc.)  
+
+#Did not accomplish:#    
+-In retrospect, wish we had added destination to EACH package instead of having one destination. Having one destination was great for wetsy, but the API would be more generalized if it allowed for origin and destination for each package.  
+-Test coverage is high, but tests themselves are not thorough.  
+-Deploy shipping service on heroku (left off trying to get secrets to work properly)   
+
+
+
+
 Build a stand-alone shipping service API that calculates estimated shipping cost for an order from another team's bEtsy application.
 
 ## Learning Goals
