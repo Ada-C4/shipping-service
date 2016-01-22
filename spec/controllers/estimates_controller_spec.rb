@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'support/vcr_setup'
 
 RSpec.describe EstimatesController, type: :controller do
-  let!(:value) do
+  let!(:package) do
     {
       value: 2000
     }
@@ -10,19 +10,18 @@ RSpec.describe EstimatesController, type: :controller do
 
   let!(:destination) do
     {
-      country: "US",
-      state: "CA",
-      city: "San Francisco",
-      zip: "94101"
+      destination: {
+        state: "CA",
+        city: "San Francisco",
+        zip: 94104
+      }
     }
   end
 
   describe "GET 'estimate'" do
-    before :each do
 
-    end
-    it "is successful" do
-      get :estimate
+    it "is successful", :vcr do
+      get :estimate, destination.merge(package)
       expect(response.response_code).to eq 200
     end
 

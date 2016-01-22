@@ -3,4 +3,5 @@ VCR.configure do |c|
   c.cassette_library_dir = 'spec/vcr'
   # your HTTP request service.
   c.hook_into :webmock
+  c.configure_rspec_metadata!
 end
