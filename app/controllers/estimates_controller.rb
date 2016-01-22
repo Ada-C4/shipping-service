@@ -7,6 +7,8 @@ class EstimatesController < ApplicationController
 
   FEDEX = ActiveShipping::FedEx.new(login: 'FEDEX_LOGIN', password: 'FEDEX_PASSWORD', key: 'FEDEX_KEY', account: 'FEDEX_ACCOUNT', test: true)
 
+  USPS = ActiveShipping::USPS.new(login: ENV['USPS_LOGIN'])
+
   # assume all packages are being sent within the US
   COUNTRY = "US"
   # assume all packages are originating from Ada's betsy distribution center
@@ -23,9 +25,9 @@ class EstimatesController < ApplicationController
     # method call
     ups_estimates = get_ups_estimates(ORIGIN, destination, package)
     # method call
-    fedex_estimates = get_fedex_estimates(ORIGIN, destination, package)
-    # response includes rates and dates from both Ups and Fedex
-    response = {"UPS Service Options" => ups_estimates, "FedEx Service Options" => fedex_estimates }
+    usps_estimates = get_usps_estimates(ORIGIN, destination, package)
+    # response includes rates and dates from both Ups and USPS
+    response = {"UPS Service Options" => ups_estimates, "USPS Service Options" => usps_estimates }
     render :json => response.as_json, :status => :ok
   end
 
@@ -62,10 +64,14 @@ private
     return shipping_estimate
   end
 
-  def get_fedex_estimates(origin, destination, package)
-    #placeholder
-    return Hash.new
+  def get_usps_estimates(origin, destination, package)
+    rates_response = USPS.find_rates(ORIGIN, destination, package)
+    usps_rates = rates_response.rates
+    shipping_estimate = Hash.new
+    usps_rates.each do |rate|
+      next if rate.service_name.nil?
+      shipping_estimate["#{rate.service_name}"] = { "cost" => "#{rate.price}", "date" => "#{rate.delivery_date}"}
+    end
+    return shipping_estimate
   end
-
-
 end
