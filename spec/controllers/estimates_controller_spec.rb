@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'vcr'
 
 RSpec.describe EstimatesController, type: :controller do
   describe 'estimate' do
