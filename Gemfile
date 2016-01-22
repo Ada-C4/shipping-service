@@ -17,6 +17,9 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.0'
   gem 'factory_girl_rails'
   gem 'sqlite3'
+  gem 'dotenv-rails'
+  gem 'pry-rails'
+  gem 'vcr'
 end
 
 group :production do
@@ -27,11 +30,11 @@ end
 group :development do
   gem 'web-console', '~> 2.0'
   gem 'spring'
-  gem 'pry-rails'
   gem 'better_errors'
   gem 'binding_of_caller'
 end
 
 group :test do
   gem 'simplecov', :require => false
+  gem 'webmock', '1.8.0'
 end

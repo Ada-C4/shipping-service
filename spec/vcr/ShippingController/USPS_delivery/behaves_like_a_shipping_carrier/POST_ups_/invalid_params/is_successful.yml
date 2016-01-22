@@ -1,0 +1,56 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://production.shippingapis.com/ShippingAPI.dll?API=RateV4&XML=%3C?xml%20version=%221.0%22?%3E%0A%3CRateV4Request%20USERID=%22677JADED7283%22%3E%0A%20%20%3CPackage%20ID=%220%22%3E%0A%20%20%20%20%3CService%3EALL%3C/Service%3E%0A%20%20%20%20%3CFirstClassMailType/%3E%0A%20%20%20%20%3CZipOrigination%3E98102%3C/ZipOrigination%3E%0A%20%20%20%20%3CZipDestination%3E90024%3C/ZipDestination%3E%0A%20%20%20%20%3CPounds%3E0%3C/Pounds%3E%0A%20%20%20%20%3COunces%3E100.0%3C/Ounces%3E%0A%20%20%20%20%3CContainer%3ERECTANGULAR%3C/Container%3E%0A%20%20%20%20%3CSize%3ELARGE%3C/Size%3E%0A%20%20%20%20%3CWidth%3E300.00%3C/Width%3E%0A%20%20%20%20%3CLength%3E300.00%3C/Length%3E%0A%20%20%20%20%3CHeight%3E100.00%3C/Height%3E%0A%20%20%20%20%3CGirth%3E800.00%3C/Girth%3E%0A%20%20%20%20%3CMachinable%3EFALSE%3C/Machinable%3E%0A%20%20%3C/Package%3E%0A%3C/RateV4Request%3E%0A
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Backside-Transport:
+      - OK OK
+      Cache-Control:
+      - private
+      Content-Type:
+      - text/xml
+      Server:
+      - Microsoft-IIS/7.5
+      X-Aspnet-Version:
+      - 2.0.50727
+      X-Powered-By:
+      - ASP.NET
+      Date:
+      - Fri, 22 Jan 2016 19:51:47 GMT
+      X-Client-Ip:
+      - 56.0.70.6
+      X-Global-Transaction-Id:
+      - '1716177257'
+      Access-Control-Allow-Origin:
+      - "*"
+      Connection:
+      - Keep-Alive
+      Cteonnt-Length:
+      - '324'
+      X-Frame-Options:
+      - SAMEORIGIN
+      Content-Length:
+      - '247'
+    body:
+      encoding: ASCII-8BIT
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <RateV4Response><Package ID="0"><Error><Number>-2147219385</Number><Source>DomPostageLibrary;RateV4.ProcessRequest</Source><Description>According to the dimensions entered, your package is too large to be mailed</Description><HelpFile/><HelpContext/></Error></Package></RateV4Response>
+    http_version: 
+  recorded_at: Fri, 22 Jan 2016 19:51:47 GMT
+recorded_with: VCR 3.0.1

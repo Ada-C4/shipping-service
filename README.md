@@ -1,64 +1,56 @@
-# Shipping Service API
-Build a stand-alone shipping service API that calculates estimated shipping cost for an order from another team's bEtsy application.
+#Shipping Service API
+This project is built on top of the [ActiveShipping gem](https://github.com/Shopify/active_shipping), providing an easy to use interface for getting **shipping rates** from various shipping carriers. It currently supports the following shipping carriers:
+- [UPS](https://www.ups.com/)
+- [USPS](https://www.usps.com/)
 
-## Learning Goals
-- Develop the ability to read 3rd party code
-- APIs
-    - design
-    - build
-    - test
-- Continue working with JSON
-- Revisit
-    - HTTP interactions
-    - Testing of 3rd party services
-- Increased confidence in working with 3rd party APIs
+#Accessing the API
+The API can be accessed at https://botsy-shipping.herokuapp.com/ through the two endpoints:
+- https://botsy-shipping.herokuapp.com/ups_rates  
+- https://botsy-shipping.herokuapp.com/usps_rates
 
-## Guidelines
-- Practice TDD to lead the development process for Models and Controllers
-- Create user stories and keep the stories up-to-date throughout the project
-- Deploy on Heroku
-- Shipping API will communicate with the bEtsy app via JSON
-- Integrate the [ActiveShipping](https://github.com/Shopify/active_shipping) gem to do shipping-specific logic for you
+To access the API, post a request to one of the endpoints with a JSON with valid data for a package's origin, destination, and package dimensions
 
-## Project Baseline
-When you've accomplished all of the baseline requirements, please issue a PR back to the bEtsy team's fork. We will review and merge your baseline, but you don't need to wait for that to happen before helping your classmates and moving on to the project requirements.
+###Sample JSON
+This is a valid JSON for a post request to the API:
+```js
+{ "origin" :
+    {"country" : "US","state" : "WA","city" : "Seattle","postal_code" : "98102"},
+  "destination" :
+    {"country" : "US","state" : "CA","city" : "Los Angeles","postal_code" : "90024"},
+  "package" :
+    {"weight" : 20,"length" : 10,"width" : 10,"height" : 10, "cylinder" : false}
+}
+```
 
-### The baseline requirements are...
-- a ruby-gemset and ruby-version.
-- a new rails application.
-- [rspec](https://github.com/rspec/rspec-rails) setup in document format (hint: use a .rspec config file and the `rspec_rails` gem)
-- [factory_girl](https://github.com/thoughtbot/factory_girl_rails) included and set up to work with rspec
-- [simplecov](https://github.com/colszowka/simplecov) for code coverage reporting
-- create a NEW fork from the original bEtsy team's fork
-  - your team will work on the new fork and issue PRs back to the original team's fork rather than the project master
-- create a preliminary Heroku deployment of the bEtsy project
-- review bEtsy code to come up with a basic understanding of the current checkout user flow
-  - feel free to ask the original bEtsy team questions, but be sure you are prepared to ask them specific questions. Remember, the original developers are on a new team now and are just as busy with new work as you are.
+###Sample curl request
+```
+curl -H "Content-Type: application/json" -X POST --data '{ "origin" : {"country" : "US","state" : "WA","city" : "Seattle","postal_code" : "98102"},"destination" : {"country" : "US","state" : "CA","city" : "Los Angeles","postal_code" : "90024"},"package" : {"weight" : 20,"length" : 10,"width" : 10,"height" : 10, "cylinder" : false}}' https://botsy-shipping.herokuapp.com/ups_rates
+```
 
-## Expectations
-Given shipping addresses and a set of packages, generate a quote for the cost of shipping for these items for a given shipper.
+###Sample HTTParty request
+```ruby
+HTTParty.post("https://botsy-shipping.herokuapp.com/ups_rates",
+  :headers => { 'Content-Type' => 'application/json' },
+  :body => {
+    "origin" => {"country" : "US","state" : "WA","city" : "Seattle","postal_code" : "98102"},
+    "destination" => {"country" : "US","state" : "CA","city" : "Los Angeles","postal_code" : "90024"},  
+    "package" => @{"weight" : 20,"length" : 10,"width" : 10,"height" : 10, "cylinder" : false} }.to_json)
+```
 
-## Requirements
-### Technical Requirements
-#### Your API will:
-- Respond with JSON and proper HTTP response codes  
-- Allow Users to get shipping cost quotes for different delivery types (standard, express, overnight, etc.)
-- Allow Users to get a cost comparison of two or more carriers  
-- Have appropriate error handling:
-  - When a User's request is incomplete, return an appropriate error
-  - When a User's request does not process in a timely manner, return an appropriate error
+###Sample response
+```
+[ ["UPS Ground",1198],
+  ["UPS Three-Day Select",1767],
+  ["UPS Second Day Air",2354],
+  ["UPS Next Day Air Saver",5462],
+  ["UPS Next Day Air",5922],
+  ["UPS Next Day Air Early A.M.",9050]
+]
+```
 
-#### Your bEtsy application will:
-- Integrate packaging estimates into the checkout workflow to be able to utilize the shipping API
-- Present the relevant shipping information to the user during the checkout process
-  - Cost
-  - Delivery estimate
-
-### Testing
-- 95% test coverage for all API Controller routes, Model validations, and Model methods
-
-### Added Fun!
-- Log all requests and their associated responses such that an audit could be conducted  
-- Do some refactoring of the bEtsy project you're working on
-- Allow merchants to view the total shipping costs for all of their products in a particular order
-- Find the seam in bEtsy app between the shopping and payment processing, and build a payment processing service
+#Running the API Locally
+1. Clone the GitHub repository and navigate into the project directory
+2. Run bundle install
+3. Run rake db:migrate
+4. Run rails server
+5. Now you can post requests to the API, but with a different URI (ex: http://localhost:3000/ups_rates)

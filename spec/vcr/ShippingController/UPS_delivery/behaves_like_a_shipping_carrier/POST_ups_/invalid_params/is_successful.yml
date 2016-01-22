@@ -1,0 +1,103 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://onlinetools.ups.com/ups.app/xml/Rate
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <AccessRequest>
+          <AccessLicenseNumber>7CE85DED4C9D07AB</AccessLicenseNumber>
+          <UserId>shopifolk</UserId>
+          <Password>Shopify_rocks</Password>
+        </AccessRequest>
+        <?xml version="1.0"?>
+        <RatingServiceSelectionRequest>
+          <Request>
+            <RequestAction>Rate</RequestAction>
+            <RequestOption>Shop</RequestOption>
+          </Request>
+          <PickupType>
+            <Code>01</Code>
+          </PickupType>
+          <CustomerClassification>
+            <Code>01</Code>
+          </CustomerClassification>
+          <Shipment>
+            <Shipper>
+              <Address>
+                <City>Seattle</City>
+                <StateProvinceCode>WA</StateProvinceCode>
+                <PostalCode>98102</PostalCode>
+                <CountryCode>US</CountryCode>
+                <ResidentialAddressIndicator>true</ResidentialAddressIndicator>
+              </Address>
+            </Shipper>
+            <ShipTo>
+              <Address>
+                <City>Los Angeles</City>
+                <StateProvinceCode>CA</StateProvinceCode>
+                <PostalCode>90024</PostalCode>
+                <CountryCode>US</CountryCode>
+                <ResidentialAddressIndicator>true</ResidentialAddressIndicator>
+              </Address>
+            </ShipTo>
+            <Package>
+              <PackagingType>
+                <Code>02</Code>
+              </PackagingType>
+              <Dimensions>
+                <UnitOfMeasurement>
+                  <Code>IN</Code>
+                </UnitOfMeasurement>
+                <Length>300.0</Length>
+                <Width>300.0</Width>
+                <Height>100.0</Height>
+              </Dimensions>
+              <PackageWeight>
+                <UnitOfMeasurement>
+                  <Code>LBS</Code>
+                </UnitOfMeasurement>
+                <Weight>6.25</Weight>
+              </PackageWeight>
+              <PackageServiceOptions/>
+            </Package>
+          </Shipment>
+        </RatingServiceSelectionRequest>
+    headers:
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 22 Jan 2016 21:30:43 GMT
+      Server:
+      - Apache
+      X-Frame-Options:
+      - SAMEORIGIN
+      Pragma:
+      - no-cache
+      Content-Length:
+      - '429'
+      X-Content-Type-Options:
+      - nosniff
+      Content-Type:
+      - application/xml
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <RatingServiceSelectionResponse><Response><ResponseStatusCode>0</ResponseStatusCode><ResponseStatusDescription>Failure</ResponseStatusDescription><Error><ErrorSeverity>Hard</ErrorSeverity><ErrorCode>111055</ErrorCode><ErrorDescription>Package exceeds the maximum length constraint of 108 inches. Length is the longest side of a package.</ErrorDescription></Error></Response></RatingServiceSelectionResponse>
+    http_version: 
+  recorded_at: Fri, 22 Jan 2016 21:30:43 GMT
+recorded_with: VCR 3.0.1

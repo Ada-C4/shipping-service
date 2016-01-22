@@ -73,3 +73,5 @@ bower.json
 .powenv
 
 .env
+secrets.yml
+/spec/vcr/*.yml
