@@ -1,7 +1,7 @@
 
 class EstimatesController < ApplicationController
   require 'active_shipping'
-  require "./lib/estimator.rb"
+  require "./lib/estimator/estimator.rb"
 
   def quote
     ship_params = strong_shipping_params
