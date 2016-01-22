@@ -6,9 +6,6 @@ class EstimatesController < ApplicationController
   def quote
     ship_params = strong_shipping_params
     estimate = Estimate.query(ship_params)
-    #takes shipping params
-    #does stuff with estimator wrapper
-    #renders json
     if estimate
       render :json => estimate.to_json, :status => :ok
     else
