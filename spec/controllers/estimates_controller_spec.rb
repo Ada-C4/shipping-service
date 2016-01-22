@@ -19,9 +19,9 @@ RSpec.describe EstimatesController, type: :controller do
 
       it "returned json that is formatted properly" do
         get :quote, params, { format: :json }
-        expect(response.body["Carrier"]).to_not be_nil
-        binding.pry
-        expect(response.body(["Carrier"].length)).to eq(2)
+        parsed_body = JSON.parse(response.body)
+        expect(parsed_body["UPS"]).to_not be_nil
+        expect(parsed_body["UPS"]["UPS Ground"]).to_not be_nil
       end
     end
 
