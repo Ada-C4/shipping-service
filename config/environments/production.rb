@@ -1,4 +1,8 @@
 Rails.application.configure do
+  # secrets
+  config.secret_key_base = ENV["SECRET_KEY_BASE"]
+  config.secret_token = ENV["SECRET_TOKEN"]
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
