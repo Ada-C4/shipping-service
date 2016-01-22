@@ -1,7 +1,7 @@
 class ShipmentsController < ApplicationController
+
   def shipment
-    if !params.include?("destination") || !params.include?("origin") || !params.include?("packages")
-      render:json => ["You didn't submit the correct information."].as_json, :status => :bad_request
+    if error_handling(params)
     else
       origin = ActiveShipping::Location.new(country: 'US', state: 'CA', city: 'Beverly Hills', zip: '90210')
 
@@ -39,6 +39,30 @@ class ShipmentsController < ApplicationController
     quotes << ups_rates
     quotes << usps_rates
     return quotes
+  end
+
+  def error_handling(params)
+    location_keys = ["city", "state", "country", "zip"]
+    package_keys = ["weight", "dimensions"]
+    proper_packages = true
+    if !params.include?("destination")
+      render:json => ["You didn't submit a destination."].as_json, :status => :bad_request
+    elsif !params.include?("origin")
+      render:json => ["You didn't submit an origin."].as_json, :status => :bad_request
+    elsif !params.include?("packages")
+      render:json => ["You didn't submit your package information."].as_json, :status => :bad_request
+    elsif params["destination"].keys() & location_keys != location_keys
+      render:json => ["Your destination information is incomplete"].as_json, :status => :bad_request
+    elsif params["origin"].keys() & location_keys != location_keys
+        render:json => ["Your origin information is incomplete"].as_json, :status => :bad_request
+    elsif
+      params["packages"].each do |package| 
+        proper_packages = false if package.keys & package_keys !=  package_keys
+      render:json => ["Your package information is incomplete"].as_json, :status => :bad_request if !proper_packages
+      end
+    else
+      return false
+    end
   end
 
 end
