@@ -99,7 +99,7 @@ RSpec.describe ShipmentsController, type: :controller do
     it "must have packages" do
       get :shipment, no_packages_params
       expect(response.status).to eq(400)
-      expect(response.body).to include("You didn't submit the correct information.")
+      expect(response.body).to include("You didn't submit your package information.")
     end
   end
 

@@ -11,8 +11,8 @@ class ShipmentsController < ApplicationController
       packages = []
       if !params[:packages].nil?
         params[:packages].each do |package|
-          weight = package[0].to_i
-          dimensions = package[1].split(",").map! { |num| num.to_i }
+          weight = package[:weight]
+          dimensions = package[:dimensions].to_ary.map!{|string| string.to_i}
           pack = ActiveShipping::Package.new(weight, dimensions)
           packages << pack
         end
