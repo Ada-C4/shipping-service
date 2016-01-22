@@ -4,32 +4,38 @@ module Estimator
     require 'pry'
 
     def self.query(ship_params)
-      #make query in here to get quotes
+      @api_call_ok = true
       quote = ups_dates_and_rates(ship_params)
-      return quote
+      if @api_call_ok
+        return quote
+      else
+        return nil
+      end
+      @api_call_ok = true
     end
 
     #creates hashes that have each service with their price and estimated shipping date
     def self.ups_dates_and_rates(ship_params)
-      ups_dates_and_rates = {}
-      ship_array = shipment_array(ship_params)
-      rates = ups_rates(ship_array)
-      dates = ups_date_estimates(ship_array)
-      #this is ugly because the gem gave me back slightly different names for the services. icky.
-      dates_and_rates = {"UPS" =>
-        {"UPS Ground" => {"rate" => rates["UPS Ground"], "date" => dates["UPS Ground"]},
-         "UPS Three Day Select" => {"rate" => rates["UPS Three-Day Select"], "date" => dates["UPS 3 Day Select"]},
-         "UPS Second Day Air" => {"rate" => rates["UPS Second Day Air"], "date" =>
-          dates["UPS 2nd Day Air"]},
-          "UPS Next Day Air Saver" => {"rate" => rates["UPS Next Day Air Saver"], "date" =>
-          dates["UPS Next Day Air Saver"]},
-         "UPS Next Day Air" => {"rate" => rates["UPS Next Day Air"], "date" =>
-          dates["UPS Next Day Air"]},
-         "UPS Next Day Air Early" => {"rate" => rates["UPS Next Day Air Early A.M."], "date" =>
-          dates["UPS Next Day Air Early"]}}}
-      return dates_and_rates
+        ups_dates_and_rates = {}
+        ship_array = shipment_array(ship_params)
+        rates = ups_rates(ship_array)
+        dates = ups_date_estimates(ship_array)
+        if @api_call_ok
+          #this is ugly because the gem gave me back slightly different names for the services. icky.
+          dates_and_rates = {"UPS" =>
+            {"UPS Ground" => {"rate" => rates["UPS Ground"], "date" => dates["UPS Ground"]},
+             "UPS Three Day Select" => {"rate" => rates["UPS Three-Day Select"], "date" => dates["UPS 3 Day Select"]},
+             "UPS Second Day Air" => {"rate" => rates["UPS Second Day Air"], "date" =>
+              dates["UPS 2nd Day Air"]},
+              "UPS Next Day Air Saver" => {"rate" => rates["UPS Next Day Air Saver"], "date" =>
+              dates["UPS Next Day Air Saver"]},
+             "UPS Next Day Air" => {"rate" => rates["UPS Next Day Air"], "date" =>
+              dates["UPS Next Day Air"]},
+             "UPS Next Day Air Early" => {"rate" => rates["UPS Next Day Air Early A.M."], "date" =>
+              dates["UPS Next Day Air Early"]}}}
+          return dates_and_rates
+      end
     end
-
 
     def self.shipment_array(ship_params)
       #from params, goes through packages and gets each one in the format needed to make the call to active shipping
@@ -81,11 +87,14 @@ module Estimator
       #this is where are are taking all the packages from each different merchant and summing their shipping costs
       ups_rates = []
         shipment_array.each do |shipment|
+
             response = ups.find_rates(shipment[:origin], shipment[:destination], shipment[:package])
             sorted_rates = (response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}).to_h
             ups_rates << sorted_rates
         end
-
+    rescue ActiveShipping::ResponseError
+      @api_call_ok = false
+    else
       total_ups_rates = Hash.new(0)
       ups_rates.each { |subhash| subhash.each { |service, cost| total_ups_rates[service] += cost } }
       return total_ups_rates

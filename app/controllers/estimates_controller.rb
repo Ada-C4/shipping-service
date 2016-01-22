@@ -10,8 +10,7 @@ class EstimatesController < ApplicationController
     #does stuff with estimator wrapper
     #renders json
     if estimate
-      render :json => estimate.as_json(except: [:created_at, :updated_at]),
-      :status => :ok
+      render :json => estimate.to_json, :status => :ok
     else
       render :json => [], :status => :no_content
     end
