@@ -1,4 +1,32 @@
+require 'timeout'
+
 class Carrier
+
+  def self.get_rates(params)
+    origin = Carrier.create_origin(params[:origin])
+    destination = Carrier.create_destination(params[:destination])
+    packages = Carrier.create_packages(params[:packages])
+
+    ups_rates = begin
+      Timeout::timeout(5) do
+        response = Carrier.activate_ups.find_rates(origin, destination, packages)
+        response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price, rate.delivery_date]}
+      end
+    rescue Timeout::Error
+      nil
+    end
+
+    usps_rates = begin
+      Timeout::timeout(5) do
+        response = Carrier.activate_usps.find_rates(origin, destination, packages)
+        response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price, rate.delivery_date]}
+      end
+    rescue Timeout::Error
+      nil
+    end
+    return ups_rates, usps_rates
+  end
+
   def self.create_origin(origin_params)
     ActiveShipping::Location.new(
       country:  origin_params[:country],
