@@ -18,6 +18,8 @@ Bundler.require(*Rails.groups)
 module ShippingService
   class Application < Rails::Application
     config.autoload_paths += %W(#{config.root}/lib/)
+    Rails.application.config.secret_key_base = ENV["SECRET_KEY_BASE"]
+    Rails.application.config.secret_token = ENV["SECRET_TOKEN"]
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
