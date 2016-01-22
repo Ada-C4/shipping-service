@@ -1,5 +1,5 @@
 class EstimatesController < ApplicationController
-  require '/lib/estimator.rb'
+  require "/lib/estimator.rb"
   include Estimator
   require 'active_shipping'
   require 'pry'
@@ -14,9 +14,6 @@ class EstimatesController < ApplicationController
       render :json => [], :status => :no_content
     end
   end
-
-
-
 
 private
 
