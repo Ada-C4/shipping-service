@@ -21,8 +21,6 @@ class ShipmentsController < ApplicationController
       else
         render:json => ["Packages is empty"].as_json, :status => :bad_request
       end
-
-
     end
   end
 
