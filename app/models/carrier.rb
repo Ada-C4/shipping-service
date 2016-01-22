@@ -12,7 +12,7 @@ class Carrier
         response = Carrier.activate_ups.find_rates(origin, destination, packages)
         response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price, rate.delivery_date]}
       end
-    rescue Timeout::Error
+    rescue
       nil
     end
 
@@ -21,7 +21,7 @@ class Carrier
         response = Carrier.activate_usps.find_rates(origin, destination, packages)
         response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price, rate.delivery_date]}
       end
-    rescue Timeout::Error
+    rescue
       nil
     end
     return ups_rates, usps_rates
