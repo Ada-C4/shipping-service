@@ -5,8 +5,6 @@ class EstimatesController < ApplicationController
   # also create carrier constants which is a ups carrier and a fedex carrier?
   UPS = ActiveShipping::UPS.new(login: ENV['UPS_LOGIN'], password: ENV['UPS_PASSWORD'], key: ENV['UPS_KEY'])
 
-  FEDEX = ActiveShipping::FedEx.new(login: 'FEDEX_LOGIN', password: 'FEDEX_PASSWORD', key: 'FEDEX_KEY', account: 'FEDEX_ACCOUNT', test: true)
-
   USPS = ActiveShipping::USPS.new(login: ENV['USPS_LOGIN'])
 
   # assume all packages are being sent within the US
@@ -26,7 +24,7 @@ class EstimatesController < ApplicationController
     ups_estimates = get_ups_estimates(ORIGIN, destination, package)
     # method call
     usps_estimates = get_usps_estimates(ORIGIN, destination, package)
-    # response includes rates and dates from both Ups and USPS
+    # response includes rates and dates from both UPS and USPS
     response = {"UPS Service Options" => ups_estimates, "USPS Service Options" => usps_estimates }
     render :json => response.as_json, :status => :ok
   end
