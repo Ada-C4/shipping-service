@@ -43,6 +43,11 @@ group :development, :test do
   gem 'sqlite3'
   gem 'pry-rails'
   gem 'factory_girl_rails'
+  gem 'vcr'
+end
+
+group :test do
+  gem 'webmock'
 end
 
 group :development do
