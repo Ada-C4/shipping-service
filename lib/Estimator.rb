@@ -8,7 +8,7 @@ module Estimator
       quote = {:hi => "how are you"}
       shipment_array = shipment_array(ship_params)
       ups_rates(shipment_array)
-      ups_shipping_estimate(shipment_array)
+      ups_date_estimates(shipment_array)
 
       return quote
     end
@@ -22,7 +22,7 @@ module Estimator
         package_info = pack_items(package)
         active_origin = ActiveShipping::Location.new(package[:origin])
         active_destination = destination(ship_params)
-        active_package = ActiveShipping::Package.new(package_info[:weight], package_info[:dimensions], :units => :imperial, :value => 10)
+        active_package = ActiveShipping::Package.new(package_info[:weight], package_info[:dimensions], :units => :imperial, :value => 10) #had to add value for delivery date estimate
 
         package_hash = {origin: active_origin,
                         destination: active_destination,
@@ -74,13 +74,20 @@ module Estimator
     end
 
     #takes shipments and estimates delivery dates. End up returning the least optimistic set of dates to the user. So they might be ordering from many merchants, and they see the date for the item that will arrive the slowest
-    def self.ups_shipping_estimate(shipment_array)
+    def self.ups_date_estimates(shipment_array)
       ups_date_estimates = []
       shipment_array.each do |shipment|
-        dates = ups.get_delivery_date_estimates(shipment[:origin], shipment[:destination], shipment[:package], pickup_date = Date.current, options = {})
-        ups_date_estimates << dates
+        response = ups.get_delivery_date_estimates(shipment[:origin], shipment[:destination], shipment[:package], pickup_date = Date.current, options = {})
+        binding.pry
+        sorted_dates = (response.delivery_estimates.sort_by(&:date).collect {|est| [est.service_name, est.date]}).to_h
+        ups_date_estimates << sorted_dates
       end
+      #take date estimates and for each service, find the least optimistic date
+      ups_date_estimates
+      binding.pry
     end
+
+
 
     def usps_rates
       usps = USPS.new(login: 'your usps account number', password: 'your usps password')
