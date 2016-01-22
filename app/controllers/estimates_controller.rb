@@ -3,11 +3,10 @@ require 'active_shipping'
 class EstimatesController < ApplicationController
   # create constants for origin object, package grams_or_ounces and package dimensions, and country
   # also create carrier constants which is a ups carrier and a fedex carrier?
+  UPS = ActiveShipping::UPS.new(login: ENV['UPS_LOGIN'], password: ENV['UPS_PASSWORD'], key: ENV['UPS_KEY'])
 
-  UPS = ActiveShipping::UPS.new(login: 'UPS_LOGIN', password: 'UPS_PASSWORD', key: 'UPS_KEY')
   FEDEX = ActiveShipping::FedEx.new(login: 'FEDEX_LOGIN', password: 'FEDEX_PASSWORD', key: 'FEDEX_KEY', account: 'FEDEX_ACCOUNT', test: true)
 
-  
   # assume all packages are being sent within the US
   COUNTRY = "US"
   # assume all packages are originating from Ada's betsy distribution center
@@ -29,7 +28,7 @@ class EstimatesController < ApplicationController
 
       # need to filter above responses down to the data we want (cost, date, service code)
       # also need to remove any results with nil for service code
-      response = [rates_response, delivery_dates_response]
+      response = [rates_response.rates.first, delivery_dates_response.delivery_estimates.first]
 
     render :json => response.as_json, :status => :ok
   end
