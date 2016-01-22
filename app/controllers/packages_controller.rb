@@ -7,7 +7,6 @@ class PackagesController < ApplicationController
     origin = get_origin
     package = get_package
     destination = get_destination(params)
-
      ups = ActiveShipping::UPS.new(login: ENV["UPS_LOGIN"], password: ENV["UPS_PASSWORD"], key: ENV["UPS_KEY"])
      usps = ActiveShipping::USPS.new(login: ENV["USPS_LOGIN"])
 
@@ -34,7 +33,36 @@ class PackagesController < ApplicationController
       render :json => [], :status => :gateway_timeout
     end
   end
-  
+
+  def get_package
+    package = [
+      ActiveShipping::Package.new(100,
+                                  [40,40],
+                                  valule: 10000)
+              ]
+
+    return package
+  end
+
+  def get_origin
+    origin = ActiveShipping::Location.new(country: 'US',
+                                      state: 'WA',
+                                      city: 'Seattle',
+                                      zip: 98122)
+    return origin
+  end
+
+  def get_destination(hash)
+    destination = ActiveShipping::Location.new(
+          country: 'US',
+          state: hash[:state],
+          city: hash[:city],
+          zip: hash[:zip])
+
+    return destination
+  end
+
+
   #
   # def ups_price_estimate
   #
