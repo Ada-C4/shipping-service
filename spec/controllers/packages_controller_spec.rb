@@ -20,15 +20,15 @@ RSpec.describe PackagesController, type: :controller do
                         zip: 30307)
                       }
 
-  # let(:ups) { ActiveShipping::UPS.new(login: ENV["UPS_LOGIN"], password: ENV["UPS_PASSWORD"], key: ENV["UPS_KEY"])
-  #           }
-  #
-  # let(:usps) { ActiveShipping::USPS.new(login: ENV["USPS_LOGIN"])
-  #             }
+  let(:ups) { ActiveShipping::UPS.new(login: ENV["UPS_LOGIN"], password: ENV["UPS_PASSWORD"], key: ENV["UPS_KEY"])
+            }
+
+  let(:usps) { ActiveShipping::USPS.new(login: ENV["USPS_LOGIN"])
+              }
 
   describe "GET 'index'" do
     it "is successful" do
-      get :index, origin, package, destination
+      get :index, origin, package, destination, ups, usps
       expect(response.response_code).to eq 200
     end
 
@@ -56,6 +56,27 @@ RSpec.describe PackagesController, type: :controller do
   #     end
   #   end
   end
+
+    describe "#get_package" do
+      it "creates a package object" do
+
+        expect(response.status).to eq 200
+        expect(package).to be_an_instance_of Hash
+      end
+    end
+
+    describe "#get_origin" do
+      it "creates a location object" do
+        expect(origin).to be_an Object
+      end
+    end
+
+    describe "#get_destination" do
+      it "creates a location object" do
+        expect(destination).to be_an Object
+      end
+    end
+
 
   # describe "GET 'show'" do
   #   it "is successful" do
