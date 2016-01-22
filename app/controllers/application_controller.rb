@@ -29,8 +29,13 @@ class ApplicationController < ActionController::Base
   def usps_get_rates(origin, destination, packages)
     usps = ActiveShipping::USPS.new(:login => ENV['USPS_LOGIN'])
     response = usps.find_rates(origin, destination, packages)
+    # usps_delivery_date(response)
     usps_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
     return usps_rates
+  end
+
+  def usps_delivery_date(get_rates_response)
+    date = response.
   end
 
 end
