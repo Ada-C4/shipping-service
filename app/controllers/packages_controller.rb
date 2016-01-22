@@ -34,7 +34,7 @@ class PackagesController < ApplicationController
       render :json => [], :status => :gateway_timeout
     end
   end
-  end
+  
   #
   # def ups_price_estimate
   #
