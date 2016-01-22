@@ -11,7 +11,7 @@ class ShipmentsController < ApplicationController
       destination = ActiveShipping::Location.new(country: params[:destination][:country], state: params[:destination][:state], city: params[:destination][:city], zip: params[:destination][:zip])
 
       packages = []
-      if !params[:packages].nil?
+      if params[:packages].length > 0
         params[:packages].each do |package|
           weight = package[:weight].to_i
           dimensions = package[:dimensions].split(",").map!{|string| string.to_i}
@@ -21,7 +21,7 @@ class ShipmentsController < ApplicationController
           @quotes = get_quotes(origin, destination, packages)
           render :json => @quotes.as_json
       else
-        render:json => ["Packages is empty"].as_json, :status => :bad_request
+        render:json => {"error" => "Packages is empty"}, :status => :bad_request
       end
     end
   end

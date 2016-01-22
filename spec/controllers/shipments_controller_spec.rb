@@ -13,9 +13,27 @@ RSpec.describe ShipmentsController, type: :controller do
      packages: [{"weight" => 400, "dimensions" => "4, 5, 6" }, {"weight" => 100, "dimensions" => "6, 6, 8"}] 
    }
   end
+  let(:no_origin_city_params) do
+    { origin: { "country" => "US", "state" => "WA", "zip" => 98105 },
+    destination: { country: "US", city: "Seattle", "state" => "WA", "zip" => 98105 },
+  packages: [{"weight" => 400, "dimensions" => "4, 5, 6" }, {"weight" => 100, "dimensions" => "6, 6, 8"} ]
+    }
+  end
   let(:no_destination_params) do
     { origin: { "country" => "US", "city" => "Seattle", "state" => "WA", "zip" => 98105 },
      packages: [{"weight" => 400, "dimensions" => "4, 5, 6" }, {"weight" => 100, "dimensions" => "6, 6, 8"}]
+    }
+  end
+  let(:no_destination_city_params) do
+    { origin: { "country" => "US", "city" => "Seattle", "state" => "WA", "zip" => 98105 },
+    destination: { country: "US", "state" => "WA", "zip" => 98105 },
+  packages: [{"weight" => 400, "dimensions" => "4, 5, 6" }, {"weight" => 100, "dimensions" => "6, 6, 8"} ]
+    }
+  end
+  let(:no_destination_state_params) do
+    { origin: { "country" => "US", "city" => "Seattle", "state" => "WA", "zip" => 98105 },
+    destination: { country: "US", city: "Seattle", "zip" => 98105 },
+  packages: [{"weight" => 400, "dimensions" => "4, 5, 6" }, {"weight" => 100, "dimensions" => "6, 6, 8"} ]
     }
   end
   let(:no_packages_params) do
@@ -76,7 +94,7 @@ RSpec.describe ShipmentsController, type: :controller do
       end
 
       it "each internal array has integer as 2nd item within 1st item" do
-        expect(assigns(:quotes)[0][0][1]).to eq 1198
+        expect(assigns(:quotes)[0][0][1]).to be_a(Integer)
       end
     end
   end
@@ -92,10 +110,24 @@ RSpec.describe ShipmentsController, type: :controller do
       expect(response.status).to eq(400)
       expect(response.body).to include("You didn't submit a destination.")
     end
-    it "must have packages" do
+    it "must have a packages key" do
       get :shipment, no_packages_params
       expect(response.status).to eq(400)
       expect(response.body).to include("You didn't submit your package information.")
+    end
+    it "must have packages in packages key" do
+      get :shipment, empty_packages_params
+      expect(response.body).to include("Packages is empty")
+    end
+    it "must have destination with country, city, state, zip" do
+      get :shipment, no_destination_state_params
+      expect(response.status).to eq(400)
+      expect(response.body).to include("Your destination information is incomplete")
+    end
+    it "must have origin with country, city, state, zip" do
+      get :shipment, no_origin_city_params
+      expect(response.status).to eq(400)
+      expect(response.body).to include("Your origin information is incomplete")
     end
   end
 
