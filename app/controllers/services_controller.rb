@@ -10,8 +10,8 @@ class ServicesController < ApplicationController
     destination = set_destination
 
     service = case params[:service]
-    when :ups then ups_credentials
-    when :usps then usps_credentials
+    when 'ups' then ups_credentials
+    when 'usps' then usps_credentials
     end
 
     begin
@@ -34,8 +34,6 @@ class ServicesController < ApplicationController
       data_hash = { data: service_rates }
 
       render :json => data_hash.as_json, :status => :ok
-    else
-      render :json => [], :status => :no_content
     end
   end
 
