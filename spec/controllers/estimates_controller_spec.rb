@@ -39,7 +39,37 @@ RSpec.describe EstimatesController, type: :controller do
                 [{:weight => 9.45,
                 :height => 2,
                 :length => 17,
-                :width => 14 }]}]
+                :width => 14 }]},
+            { :origin =>
+              { :country => "US",
+                :state => "CA",
+                :city => "San Fransisco",
+                :postal_code => "94105"},
+              :package_items =>
+                [{:weight => 500,
+                :height => 4,
+                :length => 104,
+                :width => 10 }]},
+            { :origin =>
+              { :country => "US",
+                :state => "IL",
+                :city => "Chicago",
+                :postal_code => "60604"},
+              :package_items =>
+                [{:weight => 1000,
+                :height => 4,
+                :length => 90,
+                :width => 10 }]},
+              { :origin =>
+                { :country => "US",
+                  :state => "AK",
+                  :city => "Juneau",
+                  :postal_code => "99802"},
+                :package_items =>
+                  [{:weight => 80,
+                  :height => 4,
+                  :length => 80,
+                  :width => 10 }]}]
           }
         }
     end

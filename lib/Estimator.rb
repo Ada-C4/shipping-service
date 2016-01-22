@@ -9,7 +9,6 @@ module Estimator
       shipment_array = shipment_array(ship_params)
       ups_rates(shipment_array)
       ups_date_estimates(shipment_array)
-
       return quote
     end
 
@@ -82,7 +81,9 @@ module Estimator
         ups_date_estimates << sorted_dates
       end
       #take date estimates and for each service, find the least optimistic date
-      ups_date_estimates
+      #I think it does work to find just one package to find the latest shipping time.
+      latest_dates = ups_date_estimates.max_by{|est| est[:date]}
+      return latest_dates
     end
 
 
