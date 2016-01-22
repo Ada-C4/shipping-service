@@ -6,7 +6,7 @@ class PackagesController < ApplicationController
   def rates
     origin = get_origin
     package = get_package
-    destination = get_destination(params)
+    destination = get_destination
 
      ups = ActiveShipping::UPS.new(login: ENV["UPS_LOGIN"], password: ENV["UPS_PASSWORD"], key: ENV["UPS_KEY"])
      usps = ActiveShipping::USPS.new(login: ENV["USPS_LOGIN"])
@@ -57,12 +57,12 @@ class PackagesController < ApplicationController
     return origin
   end
 
-  def get_destination(hash)
+  def get_destination
     destination = ActiveShipping::Location.new(
           country: 'US',
-          state: hash[:state],
-          city: hash[:city],
-          zip: hash[:zip])
+          state: params[:state],
+          city: params[:city],
+          zip: params[:zip])
 
     return destination
   end
