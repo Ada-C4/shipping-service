@@ -1,24 +1,33 @@
 class PackagesController < ApplicationController
 
   def rates
-    begin
-      #package = create_package(params)
-      package = ActiveShipping::Package.new(params[:package][:weight].to_i, [params[:package][:length].to_i, params[:package][:width].to_i, params[:package][:height].to_i], :units => params[:package][:units])
-
-    rescue
+    if params["package"]["width"].to_i == 0 || params["package"]["height"].to_i == 0 || params["package"]["length"].to_i == 0 || params["package"]["weight"].to_i == 0
       render :json => ["Incorrect or missing parameters for package"], :status => :bad_request
+      return
     end
+
+    package = ActiveShipping::Package.new(params[:package][:weight].to_i, [params[:package][:length].to_i, params[:package][:width].to_i, params[:package][:height].to_i], :units => params[:package][:units])
+
+    # begin
+    #   #package = create_package(params)
+    #   package = ActiveShipping::Package.new(params[:package][:weight].to_i, [params[:package][:length].to_i, params[:package][:width].to_i, params[:package][:height].to_i], :units => params[:package][:units])
+    # rescue
+    #   render :json => ["Incorrect or missing parameters for package"], :status => :bad_request
+    #   return
+    # end
 
     begin
       origin = ActiveShipping::Location.new(params[:origin])
     rescue
       render :json => ["Incorrect or missing parameters for origin address"], :status => :bad_request
+      return
     end
 
     begin
       destination = ActiveShipping::Location.new(params[:destination])
     rescue
       render :json => ["Incorrect or missing parameters for destination address"], :status => :bad_request
+      return
     end
 
     begin
@@ -37,7 +46,6 @@ class PackagesController < ApplicationController
 
       all_rates = { ups: ups_rates, usps: usps_rates}
       render :json => all_rates.as_json
-
     rescue
       begin
         ups = ActiveShipping::UPS.new(login: ENV["UPS_ACCOUNT_NAME"], password: ENV["UPS_ACCOUNT_PASSWORD"], key: ENV["UPS_ACCESS_KEY"])
