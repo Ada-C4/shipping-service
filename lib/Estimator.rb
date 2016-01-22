@@ -5,12 +5,36 @@ module Estimator
 
     def self.query(ship_params)
       #make query in here to get quotes
-      quote = {:hi => "how are you"}
-      shipment_array = shipment_array(ship_params)
-      ups_rates(shipment_array)
-      ups_date_estimates(shipment_array)
-      return quote
+      quote = ups_dates_and_rates(ship_params)
+      if quote
+        return quote.to_json,
+        :status => :ok
+      else
+        render :json => [], :status => :no_content
+      end
     end
+
+    #creates hashes that have each service with their price and estimated shipping date
+    def self.ups_dates_and_rates(ship_params)
+      ups_dates_and_rates = {}
+      ship_array = shipment_array(ship_params)
+      rates = ups_rates(ship_array)
+      dates = ups_date_estimates(ship_array)
+      #this is ugly because the gem gave me back slightly different names for the services. icky.
+      dates_and_rates = {"UPS" =>
+        {"UPS Ground" => {"rate" => rates["UPS Ground"], "date" => dates["UPS Ground"]},
+         "UPS Three Day Select" => {"rate" => rates["UPS Three-Day Select"], "date" => dates["UPS 3 Day Select"]},
+         "UPS Second Day Air" => {"rate" => rates["UPS Second Day Air"], "date" =>
+          dates["UPS 2nd Day Air"]},
+          "UPS Next Day Air Saver" => {"rate" => rates["UPS Next Day Air Saver"], "date" =>
+          dates["UPS Next Day Air Saver"]},
+         "UPS Next Day Air" => {"rate" => rates["UPS Next Day Air"], "date" =>
+          dates["UPS Next Day Air"]},
+         "UPS Next Day Air Early" => {"rate" => rates["UPS Next Day Air Early A.M."], "date" =>
+          dates["UPS Next Day Air Early"]}}}
+      return dates_and_rates
+    end
+
 
     def self.shipment_array(ship_params)
       #from params, goes through packages and gets each one in the format needed to make the call to active shipping
@@ -86,11 +110,9 @@ module Estimator
       return latest_dates
     end
 
-
-
-    def usps_rates
-      usps = USPS.new(login: 'your usps account number', password: 'your usps password')
-      get_rates_from_shipper(usps)
-    end
+    # def usps_rates
+    #   usps = USPS.new(login: 'your usps account number', password: 'your usps password')
+    #   get_rates_from_shipper(usps)
+    # end
   end
 end

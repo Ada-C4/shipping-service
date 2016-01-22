@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'pry'
 
 RSpec.describe EstimatesController, type: :controller do
-  describe "GET 'quote'" do
+  describe "POST 'quote'" do
 
     let(:params) do
       { :shipping_params =>
@@ -76,12 +76,12 @@ RSpec.describe EstimatesController, type: :controller do
 
 
     it "is successful" do
-      post :get_quote, params, { format: :json }
+      post :quote, params, { format: :json }
       expect(response.response_code).to eq 200
     end
 
     it "returns json" do
-      post :get_quote, params, { format: :json }
+      post :quote, params, { format: :json }
       expect(response.header['Content-Type']).to include 'application/json'
     end
   end

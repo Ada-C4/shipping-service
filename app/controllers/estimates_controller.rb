@@ -3,14 +3,14 @@ class EstimatesController < ApplicationController
   require 'active_shipping'
   require 'pry'
 
-  def get_quote
+  def quote
     ship_params = strong_shipping_params
-    quote = Estimate.query(ship_params)
+    estimate = Estimate.query(ship_params)
     #takes shipping params
     #does stuff with estimator wrapper
     #renders json
-    if quote
-      render :json => quote.as_json(except: [:created_at, :updated_at]),
+    if estimate
+      render :json => estimate.as_json(except: [:created_at, :updated_at]),
       :status => :ok
     else
       render :json => [], :status => :no_content
