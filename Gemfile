@@ -3,10 +3,6 @@ source 'https://rubygems.org'
 # Shipping requests
 gem 'active_shipping', '~> 1.4.3'
 
-#style
-gem "font-awesome-rails"
-gem 'bootstrap-sass', '~> 3.3', '>= 3.3.5.1'
-
 gem 'dotenv-rails', :groups => [:development, :test]
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -40,7 +36,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'typhoeus', '0.4.2'
+gem 'webmock', '~> 1.8.0', group: :test
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
