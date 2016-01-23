@@ -71,3 +71,7 @@ bower.json
 
 # Ignore pow environment settings
 .powenv
+
+.sublime-project
+
+.env
