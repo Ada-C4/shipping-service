@@ -8,6 +8,7 @@
 /test/tmp/
 /test/version_tmp/
 /tmp/
+/.env
 
 ## Specific to RubyMotion:
 .dat*
@@ -71,3 +72,6 @@ bower.json
 
 # Ignore pow environment settings
 .powenv
+
+# Ignore application configuration
+/config/application.yml
