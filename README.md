@@ -16,6 +16,7 @@ Our project was a little cut short by the shortened week, so we did not accompli
 
 #Did not accomplish:#    
 -In retrospect, wish we had added destination to EACH package instead of having one destination. Having one destination was great for wetsy, but the API would be more generalized if it allowed for origin and destination for each package.  
+- Usernames/passwords for ups and usps are hardcoded, which is ok because they're already publicly on github but not ideal as far as best practices.
 -Test coverage is high, but tests themselves are not thorough.  
 -Deploy shipping service on heroku (left off trying to get secrets to work properly)   
 
