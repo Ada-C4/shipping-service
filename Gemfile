@@ -26,6 +26,11 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use active_shipping for shipping amounts
 gem 'active_shipping'
 
+#use dotenv for secrets
+gem 'dotenv-rails'
+
+gem 'responders', '~> 2.0'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -41,6 +46,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'simplecov', require: false
   gem 'factory_girl_rails'
+
 end
 
 group :development do
